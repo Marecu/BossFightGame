@@ -118,6 +118,14 @@ public class Boss1Test {
     }
 
     @Test
+    void testHandleLingeringAttacksInvalid() {
+        b1.attack1(p);
+        b1.setLastUsedAttack(4);
+        b1.handleLingeringAttacks(p);
+        assertTrue(b1.getCurrentlyAttacking());
+    }
+
+    @Test
     void testHandleAttack1EdgeL() {
         b1.attack1(p);
         b1.setX(0);

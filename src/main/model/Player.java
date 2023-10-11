@@ -227,4 +227,9 @@ public class Player {
     public double getJumpStrength() {
         return this.JUMP_STRENGTH;
     }
+
+    //Setters for testing purposes:
+    public void addPlayerAttack(PlayerAttack pa) {
+        this.playerAttacks.add(pa);
+    }
 }

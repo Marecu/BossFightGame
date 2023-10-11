@@ -111,6 +111,13 @@ public class BossTest {
         assertEquals(30, ba.getHeight());
         assertEquals(b3.getX() + b3.getWidth(), ba.getX());
         assertEquals(b3.getY(), ba.getY());
+        b3.attack(4);
+        assertTrue(b3.getCurrentlyAttacking());
+        ba = b3.getBossAttacks().get(0);
+        assertEquals(800 - (int)b3.getX() - b3.getWidth(), ba.getWidth());
+        assertEquals(30, ba.getHeight());
+        assertEquals(b3.getX() + b3.getWidth(), ba.getX());
+        assertEquals(b3.getY(), ba.getY());
     }
 
     @Test
