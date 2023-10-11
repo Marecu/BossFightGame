@@ -117,7 +117,6 @@ public class GameTest {
         g1.checkPlayerAttacks(175, 500, 250, 600);
         assertEquals(20, g1.getBoss().getHP());
         assertEquals(2, g1.getPlayer().getTotalHits());
-        //
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
         g1.checkPlayerAttacks(1950, 2025, 2025, 2030); //Enclose left side of BA in player
         assertEquals(19, g1.getBoss().getHP());
@@ -129,6 +128,13 @@ public class GameTest {
         assertEquals(14, g1.getBoss().getHP());
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
         g1.checkPlayerAttacks(2025, 2025, 2030, 2075); //Enclose top side of BA in player
+        assertEquals(10, g1.getBoss().getHP());
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 3100, 3000, 1, false, 1));
+        g1.checkPlayerAttacks(3000, 3000, 3050, 3050); //Fail first case
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 4000, 4600, 1, false, 1));
+        g1.checkPlayerAttacks(4050, 4000, 4100, 4050); //Fail third case
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 25, 5000, 5000, 1, false, 1));
+        g1.checkPlayerAttacks(5050, 5050, 5100, 5100); //Fail fourth case
         assertEquals(10, g1.getBoss().getHP());
     }
 
@@ -167,6 +173,13 @@ public class GameTest {
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 2000, 2000));
         g1.checkBossAttacks(2025, 2025, 2030, 2075); //Enclose top side of BA in player
         assertEquals(-20, g1.getPlayer().getHP());
+        g1.getBoss().addBossAttack(new BossAttack(50, 50, 3100, 3000));
+        g1.checkBossAttacks(3000, 3000, 3050, 3050); //Fail first case
+        g1.getBoss().addBossAttack(new BossAttack(50, 50, 4000, 4600));
+        g1.checkBossAttacks(4050, 4000, 4100, 4050); //Fail third case
+        g1.getBoss().addBossAttack(new BossAttack(50, 25, 5000, 5000));
+        g1.checkBossAttacks(5050, 5050, 5100, 5100); //Fail fourth case
+        assertEquals(-20, g1.getPlayer().getHP());
     }
 
     @Test
@@ -189,6 +202,12 @@ public class GameTest {
         assertEquals(-4, g1.getPlayer().getHP()); //Overlap bottom side of boss
         g1.checkCollisionWithBoss(1950, 2025, 2025, 2030, 2000, 2000, 2050, 2050);
         assertEquals(-5, g1.getPlayer().getHP()); //Overlap top side of boss
+        //
+        g1.checkCollisionWithBoss(3100, 3000, 3150, 3050, 3000, 3000, 3050, 305); //Fail first case
+        g1.checkCollisionWithBoss(6000, 6000, 6025, 6050, 6050, 6000, 6010, 6050); //Fail second case
+        g1.checkCollisionWithBoss(4000, 4600, 4050, 4650, 4050, 4000, 4100, 4050); //Fail third case
+        g1.checkCollisionWithBoss(5000, 5000, 5050, 5025, 5050, 5050, 5100, 5100); //Fail fourth case
+        assertEquals(-5, g1.getPlayer().getHP());
     }
 
     @Test

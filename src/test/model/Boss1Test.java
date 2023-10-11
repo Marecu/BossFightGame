@@ -144,6 +144,15 @@ public class Boss1Test {
     }
 
     @Test
+    void testHandleAttack1NoChange() {
+        b1.attack1(p);
+        b1.setX(400);
+        b1.handleAttack1();
+        assertTrue(b1.getMovementOverride());
+        assertTrue(b1.getCurrentlyAttacking());
+    }
+
+    @Test
     void testHandleAttack2() {
         b1.attack2(p);
         b1.handleAttack2();
