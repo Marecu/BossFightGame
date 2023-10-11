@@ -164,10 +164,19 @@ public class GameTest {
         g1.getPlayer().attack();
         PlayerAttack pa1 = g1.getPlayer().getPlayerAttacks().get(0);
         PlayerAttack pa2 = g1.getPlayer().getPlayerAttacks().get(1);
+        for (int i = 0; i < 3; i++) {
+            g1.getPlayer().incrementAttackCounter();
+        }
+        g1.getPlayer().spellAttack();
+        PlayerAttack pa3 = g1.getPlayer().getPlayerAttacks().get(2);
         int startingLifespan = pa1.getLifespan();
+        int startingLifespan2 = pa3.getLifespan();
         g1.reduceAttackLifespan();
         assertEquals(startingLifespan - 1, pa1.getLifespan());
         assertEquals(startingLifespan - 1, pa2.getLifespan());
+        assertEquals(startingLifespan2 - 1, pa3.getLifespan());
+        g1.reduceAttackLifespan();
+        assertEquals(startingLifespan2 - 2, pa3.getLifespan());
     }
 
     @Test

@@ -89,7 +89,7 @@ public class Boss1 extends Boss {
     //EFFECTS: if the boss has hit the edge of the screen, removes bonus speed and resumes normal movement
     //MODIFIES: this
     void handleAttack1() {
-        if (this.posX <= 0 || this.posX >= (800 - this.WIDTH)) {
+        if (this.posX <= 0 || this.posX >= (800 - Math.min(this.WIDTH, 700))) {
             this.bonusMoveSpeed = 0;
             this.movementOverride = false;
             this.currentlyAttacking = false;

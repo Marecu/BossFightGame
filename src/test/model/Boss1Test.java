@@ -73,10 +73,10 @@ public class Boss1Test {
 
     @Test
     void testHandleLingeringAttacksA1() {
+        b1.attack1(p);
         b1.setLastUsedAttack(1);
-        b1.handleLingeringAttacks(p);
         b1.setX(0);
-        b1.handleAttack1();
+        b1.handleLingeringAttacks(p);
         assertFalse(b1.getMovementOverride());
         assertFalse(b1.getCurrentlyAttacking());
         assertEquals(10, b1.getAttackTimer());
@@ -84,10 +84,9 @@ public class Boss1Test {
 
     @Test
     void testHandleLingeringAttacksA2() {
-        b1.setLastUsedAttack(1);
-        b1.handleLingeringAttacks(p);
         b1.attack2(p);
-        b1.handleAttack2();
+        b1.setLastUsedAttack(2);
+        b1.handleLingeringAttacks(p);
         assertTrue(b1.getCurrentlyAttacking());
         b1.setY(600 - b1.getHeight());
         b1.handleAttack2();
@@ -97,10 +96,9 @@ public class Boss1Test {
 
     @Test
     void testHandleLingeringAttacksA3() {
-        b1.setLastUsedAttack(1);
-        b1.handleLingeringAttacks(p);
         b1.attack3(p);
-        b1.handleAttack3();
+        b1.setLastUsedAttack(3);
+        b1.handleLingeringAttacks(p);
         assertEquals(2, b1.getBeamTimer());
         assertTrue(b1.getCurrentlyAttacking());
         assertFalse(b1.getBossAttacks().isEmpty());

@@ -99,14 +99,7 @@ public class Game {
             double nextY = next.getY();
             double nextW = nextX + next.getWidth();
             double nextH = nextY + next.getHeight();
-            if (((bossX >= nextX && bossX <= nextW) && (bossY >= nextY && bossY <= nextH)) //Top left
-                    || ((bossW >= nextX && bossW <= nextW) && (bossY >= nextY && bossY <= nextH)) //Top right
-                    || ((bossX >= nextX && bossX <= nextW) && (bossH >= nextY && bossH <= nextH)) //Bot left
-                    || ((bossW >= nextX && bossW <= nextW) && (bossH >= nextY && bossH <= nextH)) //Bot right
-                    || ((nextX >= bossX && nextX <= bossW) && (nextY >= bossY && nextY <= bossH)) //Top left
-                    || ((nextW >= bossX && nextW <= bossW) && (nextY >= bossY && nextY <= bossH)) //Top right
-                    || ((nextX >= bossX && nextX <= bossW) && (nextH >= bossY && nextH <= bossH)) //Bot left
-                    || ((nextW >= bossX && nextW <= bossW) && (nextH >= bossY && nextH <= bossH))) { //Bot right
+            if ((nextX <= bossW) && (nextW >= bossX) && (nextY <= bossH) && (nextH >= bossY)) {
                 System.out.println("Attack hit!");
                 boss.takeDamage(1);
                 if (!next.getMoving()) { //If the attack isn't a basic attack
@@ -124,14 +117,7 @@ public class Game {
             double nextY = next.getY();
             double nextW = nextX + next.getWidth();
             double nextH = nextY + next.getHeight();
-            if (((playerX >= nextX && playerX <= nextW) && (playerY >= nextY && playerY <= nextH)) //Top left
-                    || ((playerW >= nextX && playerW <= nextW) && (playerY >= nextY && playerY <= nextH)) //Top right
-                    || ((playerX >= nextX && playerX <= nextW) && (playerH >= nextY && playerH <= nextH)) //Bot left
-                    || ((playerW >= nextX && playerW <= nextW) && (playerH >= nextY && playerH <= nextH)) //Bot right
-                    || ((nextX >= playerX && nextX <= playerW) && (nextY >= playerY && nextY <= playerH)) //Top left
-                    || ((nextW >= playerX && nextW <= playerW) && (nextY >= playerY && nextY <= playerH)) //Top right
-                    || ((nextX >= playerX && nextX <= playerW) && (nextH >= playerY && nextH <= playerH)) //Bot left
-                    || ((nextW >= playerX && nextW <= playerW) && (nextH >= playerY && nextH <= playerH))) { //Bot right
+            if ((nextX <= playerW) && (nextW >= playerX) && (nextY <= playerH) && (nextH >= playerY)) {
                 this.player.takeDamage(1);
             }
         }
@@ -141,14 +127,7 @@ public class Game {
     //MODIFIES: this.player
     void checkCollisionWithBoss(double bossX, double bossY, double bossW, double bossH,
                                 double playerX, double playerY, double playerW, double playerH) {
-        if (((bossX >= playerX && bossX <= playerW) && (bossY >= playerY && bossY <= playerH)) //Top left
-                || ((bossW >= playerX && bossW <= playerW) && (bossY >= playerY && bossY <= playerH)) //Top right
-                || ((bossX >= playerX && bossX <= playerW) && (bossH >= playerY && bossH <= playerH)) //Bot left
-                || ((bossW >= playerX && bossW <= playerW) && (bossH >= playerY && bossH <= playerH)) // Bot right
-                || ((playerX >= bossX && playerX <= bossW) && (playerY >= bossY && playerY <= bossH)) //Top left
-                || ((playerW >= bossX && playerW <= bossW) && (playerY >= bossY && playerY <= bossH)) //Top right
-                || ((playerX >= bossX && playerX <= bossW) && (playerH >= bossY && playerH <= bossH)) //Bot left
-                || ((playerW >= bossX && playerW <= bossW) && (playerH >= bossY && playerH <= bossH))) { //Bot right
+        if ((bossX <= playerW) && (bossW >= playerX) && (bossY <= playerH) && (bossH >= playerY)) {
             this.player.takeDamage(1);
         }
     }
