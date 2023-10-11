@@ -17,6 +17,7 @@ public class Game {
     private Player player;
     private Boss boss;
 
+    //EFFECTS: creates a new game with the player and boss1 in their starting positions
     public Game() {
         this.player = new Player(PLAYER_START_POS_X, PLAYER_START_POS_Y);
         this.boss = new Boss1(BOSS_START_POS_X, BOSS_START_POS_Y, this.player);

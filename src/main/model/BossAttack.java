@@ -9,6 +9,8 @@ public class BossAttack {
     private double posX;
     private double posY;
 
+
+    //EFFECTS: creates a new boss attack with the specified position and dimensions
     public BossAttack(int width, int height, double posX, double posY) {
         this.width = width;
         this.height = height;

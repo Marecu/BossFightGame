@@ -30,6 +30,7 @@ public class Player {
     private int totalHits;
     private List<PlayerAttack> playerAttacks;
 
+    //EFFECTS: creates a new player at the specified coordinates
     public Player(double x, double y) {
         this.posX = x;
         this.posY = y;

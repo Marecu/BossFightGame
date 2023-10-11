@@ -12,6 +12,7 @@ public class PlayerAttack {
     private boolean moving;
     private int facing;
 
+    //EFFECTS: creates a new player attack with the specified position, dimensions, and other misc. properties
     public PlayerAttack(int width, int height, double posX, double posY, int lifespan, boolean moving, int facing) {
         this.width = width;
         this.height = height;

@@ -11,6 +11,7 @@ public class Boss1 extends Boss {
 
     private int beamTimer;
 
+    //Creates a new boss1 at the specified coordinates that attacks the specified player p
     public Boss1(double x, double y, Player p) {
         this.posX = x;
         this.posY = y;
