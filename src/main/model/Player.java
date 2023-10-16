@@ -72,6 +72,8 @@ public class Player {
 
         if (this.posY + this.speedY <= this.PLAYER_HEIGHT) {
             this.posY = this.PLAYER_HEIGHT;
+        } else if (this.posY + this.speedY >= 600 - this.PLAYER_HEIGHT) {
+            this.posY = 600 - this.PLAYER_HEIGHT;
         } else {
             this.posY += speedY;
         }
@@ -102,6 +104,7 @@ public class Player {
     void jump() {
         if (this.hasJump) {
             this.accelerateY(this.JUMP_STRENGTH);
+            this.hasJump = false;
         }
     }
 

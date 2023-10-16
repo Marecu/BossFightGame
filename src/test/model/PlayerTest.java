@@ -13,6 +13,7 @@ class PlayerTest {
     Player p4;
     Player p5;
     Player p6;
+    Player p7;
 
     @BeforeEach
     void runBefore() {
@@ -22,6 +23,7 @@ class PlayerTest {
         p4 = new Player(30, 400);
         p5 = new Player(400, 150);
         p6 = new Player(400, 525);
+        p7 = new Player(300, 510);
     }
 
     @Test
@@ -66,6 +68,9 @@ class PlayerTest {
         assertEquals(100, p5.getY());
         p5.move();
         assertEquals(75, p5.getY());
+        p7.accelerateY(50);
+        p7.move();
+        assertEquals(525, p7.getY());
     }
 
     @Test

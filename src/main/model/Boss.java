@@ -59,7 +59,7 @@ public abstract class Boss {
     void handleScreenBoundary() {
         if (this.posX < 0) {
             this.posX = 0;
-        } else if (this.posX > 800) {
+        } else if (this.posX > 800 - this.WIDTH) {
             this.posX = 800 - this.WIDTH;
         }
         if (this.posY > 600 - this.HEIGHT) {
