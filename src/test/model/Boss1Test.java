@@ -2,18 +2,26 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Boss1Test {
 
+    private static final String FILE_PATH = "./data/boss1TestData.json";
+
     Boss1 b1;
     Player p;
+    JsonWriter jw;
+    JsonReader jr;
 
     @BeforeEach
     void runBefore() {
         p = new Player(200, 525);
         b1 = new Boss1(600, 500, p);
+        jw = new JsonWriter(FILE_PATH);
+        jr = new JsonReader(FILE_PATH);
     }
 
     @Test
@@ -182,5 +190,4 @@ public class Boss1Test {
         assertFalse(b1.getCurrentlyAttacking());
         assertTrue(b1.getBossAttacks().isEmpty());
     }
-
 }

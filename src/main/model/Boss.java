@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.Random;
 import java.util.List;
 
@@ -34,6 +36,8 @@ public abstract class Boss {
     abstract void attack3(Player p);
 
     abstract void handleLingeringAttacks(Player p);
+
+    abstract JSONObject getData();
 
     //EFFECTS: moves the boss towards the player unless movement override is true,
     //         where it keeps moving in the same direction as before

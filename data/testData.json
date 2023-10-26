@@ -1,0 +1,49 @@
+{
+  "Player": {
+    "posX": 200,
+    "posY": 500,
+    "speedY": -60,
+    "totalHits": 4,
+    "speedX": -20,
+    "hp": 2,
+    "facing": -1,
+    "playerAttacks": [
+      {
+        "posX": 400,
+        "posY": 500,
+        "lifespan": 3,
+        "width": 20,
+        "facing": 1,
+        "moving": false,
+        "height": 30
+      },
+      {
+        "posX": 200,
+        "posY": 100,
+        "lifespan": 6,
+        "width": 30,
+        "facing": -1,
+        "moving": true,
+        "height": 40
+      }
+    ],
+    "hasJump": false
+  },
+  "Boss1": {
+    "posX": 200,
+    "movementOverride": true,
+    "posY": 300,
+    "bonusMoveSpeed": 40,
+    "speedY": -10,
+    "hp": 22,
+    "facing": -1,
+    "attackTimer": 5,
+    "bossAttacks": [{
+      "posX": 300,
+      "posY": 100,
+      "width": 20,
+      "height": 30
+    }],
+    "currentlyAttacking": true
+  }
+}

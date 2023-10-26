@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 //Represents the overall game and manages the progression of the game via user interaction
 
-public class Game {
+public class Game implements Writable {
 
     private static final double BOSS_START_POS_X = 600;
     private static final double BOSS_START_POS_Y = 500;
@@ -16,11 +20,20 @@ public class Game {
 
     private Player player;
     private Boss boss;
+    private boolean save;
+
+    //EFFECTS: constructs a game with the player and boss1 having specified data
+    public Game(Player p, Boss b) {
+        this.player = p;
+        this.boss = b;
+        this.save = false;
+    }
 
     //EFFECTS: creates a new game with the player and boss1 in their starting positions
     public Game() {
         this.player = new Player(PLAYER_START_POS_X, PLAYER_START_POS_Y);
         this.boss = new Boss1(BOSS_START_POS_X, BOSS_START_POS_Y, this.player);
+        this.save = false;
     }
 
     //EFFECTS: updates the game state - moves everything, handles the boss' attacks, and processes user input
@@ -55,6 +68,9 @@ public class Game {
                 break;
             case "spell":
                 this.player.spellAttack();
+                break;
+            case "save":
+                this.save = true;
                 break;
         }
     }
@@ -153,6 +169,14 @@ public class Game {
         return (this.player.getHP() <= 0) || (this.boss.getHP() <= 0);
     }
 
+    //Returns the complete game state as a JSON object
+    public JSONObject toJson() {
+        JSONObject js = new JSONObject();
+        js.put("Player", this.player.getData()); //includes player attacks
+        js.put("Boss1", this.boss.getData()); //includes boss attacks
+        return js;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
@@ -163,6 +187,10 @@ public class Game {
 
     public double getGravitationalConstant() {
         return this.GRAVITATIONAL_CONSTANT;
+    }
+
+    public boolean getSave() {
+        return this.save;
     }
 
 }

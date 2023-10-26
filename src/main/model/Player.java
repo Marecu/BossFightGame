@@ -1,7 +1,12 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 //Represents the player that the user controls
 
@@ -29,6 +34,20 @@ public class Player {
     private int hp;
     private int totalHits;
     private List<PlayerAttack> playerAttacks;
+
+    //EFFECTS: creates a player with the specified stats
+    public Player(double x, double y, double speedX, double speedY, int facing,
+                  boolean hasJump, int hp, int totalHits, List<PlayerAttack> playerAttacks) {
+        this.posX = x;
+        this.posY = y;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.facing = facing;
+        this.hasJump = hasJump;
+        this.hp = hp;
+        this.totalHits = totalHits;
+        this.playerAttacks = playerAttacks;
+    }
 
     //EFFECTS: creates a new player at the specified coordinates
     public Player(double x, double y) {
@@ -178,6 +197,31 @@ public class Player {
     //MODIFIES: this
     void incrementAttackCounter() {
         this.totalHits++;
+    }
+
+    //EFFECTS: returns a JSON object containing all the data about the player
+    public JSONObject getData() {
+        JSONObject playerData = new JSONObject();
+        playerData.put("posX", this.posX);
+        playerData.put("posY", this.posY);
+        playerData.put("speedX", this.speedX);
+        playerData.put("speedY", this.speedY);
+        playerData.put("facing", this.facing);
+        playerData.put("hasJump", this.hasJump);
+        playerData.put("hp", this.hp);
+        playerData.put("totalHits", this.totalHits);
+        playerData.put("playerAttacks", parseAttacksJson());
+        return playerData;
+    }
+
+    //EFFECTS: parses the playerAttacks array into a JSON array with the appropriate data
+    public JSONArray parseAttacksJson() {
+        JSONArray attacksJson = new JSONArray();
+        for (PlayerAttack next : this.playerAttacks) {
+            JSONObject data = next.getData();
+            attacksJson.put(data);
+        }
+        return attacksJson;
     }
 
     public double getX() {

@@ -3,13 +3,30 @@ package ui;
 import model.BossAttack;
 import model.Game;
 import model.PlayerAttack;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class BossFight {
 
+    private static final String FILE_PATH = "./data/gameData.json";
+    private Scanner scan;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private Game game;
+
     public BossFight() {
-        Game game = new Game();
+        this.scan = new Scanner(System.in);
+        this.jsonWriter = new JsonWriter(FILE_PATH);
+        this.jsonReader = new JsonReader(FILE_PATH);
+        if (promptLoad()) {
+            loadGame();
+        } else {
+            this.game = new Game();
+        }
         runGame(game);
     }
 
@@ -20,6 +37,10 @@ public class BossFight {
     void runGame(Game g) {
         while (true) {
             promptPlayer(g);
+            if (g.getSave()) {
+                saveGame(g);
+                return;
+            }
             printGameStatus(g);
             if (g.isGameOver()) {
                 if (g.getPlayer().getHP() <= 0) {
@@ -33,8 +54,7 @@ public class BossFight {
     }
 
     void promptPlayer(Game g) {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter a move (a, d, jump, attack, spell):");
+        System.out.println("Enter a move (a, d, jump, attack, spell, save):");
         String userInput = scan.nextLine();
         g.update(userInput);
     }
@@ -57,5 +77,31 @@ public class BossFight {
         }
         System.out.println();
         System.out.println("The boss can attack in: " + g.getBoss().getAttackTimer() + " turns");
+    }
+
+    void saveGame(Game g) {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(this.game);
+            jsonWriter.close();
+            System.out.println("Game saved successfully");
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot write to the given file path");
+        }
+    }
+
+    void loadGame() {
+        try {
+            this.game = jsonReader.read();
+            System.out.println("Game loaded successfully");
+        } catch (IOException e) {
+            System.out.println("Cannot read from saved file");
+        }
+    }
+
+    boolean promptLoad() {
+        System.out.println("Do you want to load a saved game? (Y/N)");
+        String userInput = scan.nextLine();
+        return (userInput.equals("Y"));
     }
 }

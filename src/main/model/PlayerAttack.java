@@ -2,6 +2,11 @@ package model;
 
 //Represents an arbitrary player-issued attack with a given size, position, and lifespan.
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlayerAttack {
 
     private int width;
@@ -34,6 +39,19 @@ public class PlayerAttack {
     //MODIFIES: this
     void subtractLifespan() {
         this.lifespan -= 1;
+    }
+
+    //EFFECTS: returns a JSON object containing all the information about the playerAttack
+    public JSONObject getData() {
+        JSONObject data = new JSONObject();
+        data.put("width", this.width);
+        data.put("height", this.height);
+        data.put("posX", this.posX);
+        data.put("posY", this.posY);
+        data.put("lifespan", this.lifespan);
+        data.put("moving", this.moving);
+        data.put("facing", this.facing);
+        return data;
     }
 
     public int getWidth() {

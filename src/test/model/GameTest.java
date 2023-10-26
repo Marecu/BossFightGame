@@ -2,12 +2,20 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
 
+    public static final String FILE_PATH = "./data/testGameData.json";
+
     Game g1;
+    JsonWriter jw;
+    JsonReader jr;
 
     @BeforeEach
     void runBefore() {
@@ -52,6 +60,8 @@ public class GameTest {
         }
         g1.handleUserInput("spell");
         assertEquals(2, g1.getPlayer().getPlayerAttacks().size());
+        g1.handleUserInput("save");
+        assertTrue(g1.getSave());
         g1.handleUserInput("abcdef");
         assertEquals(5, g1.getPlayer().getSpeedX());
         assertEquals(g1.getPlayer().getJumpStrength(), g1.getPlayer().getSpeedY());
@@ -240,5 +250,4 @@ public class GameTest {
         g1.getBoss().takeDamage(g1.getBoss().getHP());
         assertTrue(g1.isGameOver());
     }
-
 }

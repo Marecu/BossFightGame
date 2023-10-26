@@ -1,6 +1,10 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 //Represents the first boss the player will fight with specified attacks and attributes
 
@@ -10,6 +14,22 @@ public class Boss1 extends Boss {
     private static final int TP_HEIGHT = 100;
 
     private int beamTimer;
+
+    //Creates a boss1 with the specified data
+    public Boss1(double x, double y, Player p, int hp, double speedY, int facing, int attackTimer, int bonusMoveSpeed,
+                 boolean currentlyAttacking, boolean movementOverride, List<BossAttack> bossAttacks) {
+        this.posX = x;
+        this.posY = y;
+        this.player = p;
+        this.hp = hp;
+        this.speedY = speedY;
+        this.facing = facing;
+        this.attackTimer = attackTimer;
+        this.bonusMoveSpeed = bonusMoveSpeed;
+        this.currentlyAttacking = currentlyAttacking;
+        this.movementOverride = movementOverride;
+        this.bossAttacks = bossAttacks;
+    }
 
     //Creates a new boss1 at the specified coordinates that attacks the specified player p
     public Boss1(double x, double y, Player p) {
@@ -85,6 +105,33 @@ public class Boss1 extends Boss {
             }
             this.attackTimer = this.ATTACK_INTERVAL;
         }
+    }
+
+    @Override
+    //returns a JSON object containing all the data about the boss
+    public JSONObject getData() {
+        JSONObject bossData = new JSONObject();
+        bossData.put("posX", this.posX);
+        bossData.put("posY", this.posY);
+        bossData.put("hp", this.hp);
+        bossData.put("speedY", this.speedY);
+        bossData.put("facing", this.facing);
+        bossData.put("attackTimer", this.attackTimer);
+        bossData.put("bonusMoveSpeed", this.bonusMoveSpeed);
+        bossData.put("currentlyAttacking", this.currentlyAttacking);
+        bossData.put("movementOverride", this.movementOverride);
+        bossData.put("bossAttacks", parseAttacksJson());
+        return bossData;
+    }
+
+    //EFFECTS: parses the playerAttacks array into a JSON array with the appropriate data
+    private JSONArray parseAttacksJson() {
+        JSONArray attacksJson = new JSONArray();
+        for (BossAttack next : this.bossAttacks) {
+            JSONObject data = next.getData();
+            attacksJson.put(data);
+        }
+        return attacksJson;
     }
 
     //EFFECTS: if the boss has hit the edge of the screen, removes bonus speed and resumes normal movement

@@ -186,5 +186,4 @@ class PlayerTest {
         p1.incrementAttackCounter();
         assertEquals(2, p1.getTotalHits());
     }
-
 }

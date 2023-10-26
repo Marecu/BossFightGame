@@ -1,0 +1,25 @@
+{
+    "Player": {
+        "posX": 105,
+        "posY": 373.1,
+        "speedY": -0.9499999999999922,
+        "totalHits": 0,
+        "speedX": -20,
+        "hp": 3,
+        "facing": -1,
+        "playerAttacks": [],
+        "hasJump": false
+    },
+    "Boss1": {
+        "posX": 530,
+        "movementOverride": false,
+        "posY": 500,
+        "bonusMoveSpeed": 0,
+        "speedY": 0,
+        "hp": 30,
+        "facing": -1,
+        "attackTimer": 3,
+        "bossAttacks": [],
+        "currentlyAttacking": false
+    }
+}

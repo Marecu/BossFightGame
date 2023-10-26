@@ -36,3 +36,5 @@ to me because I enjoy playing video games and because I am interested in game de
 - As a user, I want the boss to be able to use its attacks
 - As a user, I want to have an indication or telegraph that the boss is about to use a specific attack
 - As a user, I want to be able to see my remaining HP
+- As a user, I want to have the option to save the current game state
+- As a user, I want to have the option to load a game state from a saved file

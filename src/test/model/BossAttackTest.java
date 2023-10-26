@@ -21,5 +21,4 @@ public class BossAttackTest {
         assertEquals(150, ba1.getX());
         assertEquals(200, ba1.getY());
     }
-
 }
