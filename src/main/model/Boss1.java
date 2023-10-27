@@ -17,7 +17,8 @@ public class Boss1 extends Boss {
 
     //Creates a boss1 with the specified data
     public Boss1(double x, double y, Player p, int hp, double speedY, int facing, int attackTimer, int bonusMoveSpeed,
-                 boolean currentlyAttacking, boolean movementOverride, List<BossAttack> bossAttacks) {
+                 boolean currentlyAttacking, boolean movementOverride, List<BossAttack> bossAttacks,
+                 int lastUsedAttack) {
         this.posX = x;
         this.posY = y;
         this.player = p;
@@ -29,6 +30,7 @@ public class Boss1 extends Boss {
         this.currentlyAttacking = currentlyAttacking;
         this.movementOverride = movementOverride;
         this.bossAttacks = bossAttacks;
+        this.lastUsedAttack = lastUsedAttack;
     }
 
     //Creates a new boss1 at the specified coordinates that attacks the specified player p
@@ -121,6 +123,7 @@ public class Boss1 extends Boss {
         bossData.put("currentlyAttacking", this.currentlyAttacking);
         bossData.put("movementOverride", this.movementOverride);
         bossData.put("bossAttacks", parseAttacksJson());
+        bossData.put("lastUsedAttack", this.lastUsedAttack);
         return bossData;
     }
 

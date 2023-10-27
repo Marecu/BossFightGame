@@ -44,6 +44,7 @@
       "width": 20,
       "height": 30
     }],
-    "currentlyAttacking": true
+    "currentlyAttacking": true,
+    "lastUsedAttack": 1
   }
 }

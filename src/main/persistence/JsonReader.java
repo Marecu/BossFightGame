@@ -88,8 +88,9 @@ public class JsonReader {
         boolean currentlyAttacking = jo.getBoolean("currentlyAttacking");
         boolean movementOverride = jo.getBoolean("movementOverride");
         List<BossAttack> bossAttacks = parseBossAttacks(jo.getJSONArray("bossAttacks"));
+        int lastUsedAttack = jo.getInt("lastUsedAttack");
         return new Boss1(posX, posY, p, hp, speedY, facing, attackTimer, bonusMoveSpeed,
-                currentlyAttacking, movementOverride, bossAttacks);
+                currentlyAttacking, movementOverride, bossAttacks, lastUsedAttack);
     }
 
     //EFFECTS: returns a list of boss attacks parsed from the given JSON array

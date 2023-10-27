@@ -35,6 +35,7 @@
         "posY": 500,
         "bonusMoveSpeed": 40,
         "speedY": -40,
+        "lastUsedAttack": 2,
         "hp": 20,
         "facing": 1,
         "attackTimer": 5,
