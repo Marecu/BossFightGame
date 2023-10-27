@@ -81,7 +81,7 @@ public class Player {
         if ((this.posX + speedX < (800 - this.PLAYER_WIDTH)) && (this.posX + speedX > 0)) {
             this.posX += speedX;
         } else {
-            if (this.posX + speedX < 0) {
+            if (this.posX + speedX <= 0) {
                 this.posX = 0;
             } else {
                 this.posX = (800 - this.PLAYER_WIDTH);
