@@ -76,7 +76,7 @@ public class Boss1 extends Boss {
         int width;
         double posXOffset;
         if (facing == 1) {
-            width = 800 - (int)this.posX - this.WIDTH;
+            width = Game.WIDTH - (int)this.posX - this.WIDTH;
             posXOffset = this.posX + this.WIDTH;
         } else {
             width = (int)this.posX;
@@ -140,7 +140,7 @@ public class Boss1 extends Boss {
     //EFFECTS: if the boss has hit the edge of the screen, removes bonus speed and resumes normal movement
     //MODIFIES: this
     void handleAttack1() {
-        if (this.posX <= 0 || this.posX >= (800 - Math.min(this.WIDTH, 700))) {
+        if (this.posX <= 0 || this.posX >= (Game.WIDTH - Math.min(this.WIDTH, 700))) {
             this.bonusMoveSpeed = 0;
             this.movementOverride = false;
             this.currentlyAttacking = false;
@@ -150,7 +150,7 @@ public class Boss1 extends Boss {
     //EFFECTS: resumes the attack cycle if the boss has returned to the ground
     //MODIFIES: this
     void handleAttack2() {
-        if (this.posY == 600 - this.HEIGHT) {
+        if (this.posY == Game.HEIGHT - this.HEIGHT) {
             this.currentlyAttacking = false;
         }
     }

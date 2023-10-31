@@ -12,15 +12,15 @@ import java.util.Map;
 
 public class Player {
 
-    private static final double PLAYER_HEIGHT = 75;
-    private static final double PLAYER_WIDTH = 35;
+    public static final double PLAYER_HEIGHT = 75;
+    public static final double PLAYER_WIDTH = 35;
     private static final double JUMP_STRENGTH = -50;
     private static final int ACCEL_STRENGTH = 5;
     private static final int SPELL_REQUIRED_HITS = 3;
-    private static final int ATTACK_WIDTH = 75;
-    private static final int ATTACK_HEIGHT = 20;
-    private static final int MISSILE_WIDTH = 30;
-    private static final int MISSILE_HEIGHT = 10;
+    public static final int ATTACK_WIDTH = 75;
+    public static final int ATTACK_HEIGHT = 20;
+    public static final int MISSILE_WIDTH = 30;
+    public static final int MISSILE_HEIGHT = 10;
     private static final int MISSILE_SPEED = 20;
     private static final int MISSILE_LIFESPAN = 30;
 
@@ -78,21 +78,21 @@ public class Player {
     //         by speedY
     //MODIFIES: this
     void move() {
-        if ((this.posX + speedX < (800 - this.PLAYER_WIDTH)) && (this.posX + speedX > 0)) {
+        if ((this.posX + speedX < (Game.WIDTH - this.PLAYER_WIDTH)) && (this.posX + speedX > 0)) {
             this.posX += speedX;
         } else {
             if (this.posX + speedX <= 0) {
                 this.posX = 0;
             } else {
-                this.posX = (800 - this.PLAYER_WIDTH);
+                this.posX = (Game.WIDTH - this.PLAYER_WIDTH);
             }
             this.speedX = 0;
         }
 
         if (this.posY + this.speedY <= this.PLAYER_HEIGHT) {
             this.posY = this.PLAYER_HEIGHT;
-        } else if (this.posY + this.speedY >= 600 - this.PLAYER_HEIGHT) {
-            this.posY = 600 - this.PLAYER_HEIGHT;
+        } else if (this.posY + this.speedY >= Game.HEIGHT - this.PLAYER_HEIGHT) {
+            this.posY = Game.HEIGHT - this.PLAYER_HEIGHT;
         } else {
             this.posY += speedY;
         }
@@ -183,7 +183,7 @@ public class Player {
 
     //EFFECTS: returns whether or not the player's hitbox is touching the ground
     boolean onGround() {
-        return this.posY >= 600 - this.PLAYER_HEIGHT;
+        return this.posY >= Game.HEIGHT - this.PLAYER_HEIGHT;
     }
 
     //EFFECTS: reduces the player's hp by amount

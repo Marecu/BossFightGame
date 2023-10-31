@@ -14,16 +14,18 @@ class PlayerTest {
     Player p5;
     Player p6;
     Player p7;
+    Player p8;
 
     @BeforeEach
     void runBefore() {
         p1 = new Player(5, 10);
         p2 = new Player( 300, 200);
         p3 = new Player(689, 400);
-        p4 = new Player(30, 400);
+        p4 = new Player(30, 0);
         p5 = new Player(400, 150);
-        p6 = new Player(400, 525);
+        p6 = new Player(400, Game.HEIGHT - p2.getHeight());
         p7 = new Player(300, 510);
+        p8 = new Player(Game.WIDTH - p2.getWidth() - 10, Game.HEIGHT - p2.getHeight() - 10);
     }
 
     @Test
@@ -55,11 +57,11 @@ class PlayerTest {
 
     @Test
     void testMove() {
-        p3.accelerateX(50);
-        p3.move();
-        assertEquals(739, p3.getX());
-        p3.move();
-        assertEquals(765, p3.getX());
+        p8.accelerateX(7);
+        p8.move();
+        assertEquals(Game.WIDTH - p8.getWidth() - 3, p8.getX());
+        p8.move();
+        assertEquals(Game.WIDTH - p8.getWidth(), p8.getX());
         p4.accelerateX(-50);
         p4.move();
         assertEquals(0, p4.getX());
@@ -68,9 +70,11 @@ class PlayerTest {
         assertEquals(100, p5.getY());
         p5.move();
         assertEquals(75, p5.getY());
-        p7.accelerateY(50);
-        p7.move();
-        assertEquals(525, p7.getY());
+        p8.accelerateY(7);
+        p8.move();
+        assertEquals(Game.HEIGHT - p8.getHeight() - 3, p8.getY());
+        p8.move();
+        assertEquals(Game.HEIGHT - p8.getHeight(), p8.getY());
     }
 
     @Test

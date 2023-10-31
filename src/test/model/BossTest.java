@@ -49,12 +49,12 @@ public class BossTest {
         b1.setX(-10);
         b1.handleScreenBoundary();
         assertEquals(0, b1.getX());
-        b1.setX(1000);
+        b1.setX(Game.WIDTH + 100);
         b1.handleScreenBoundary();
-        assertEquals(800 - b1.getWidth(), b1.getX());
-        b1.setY(900);
+        assertEquals(Game.WIDTH - b1.getWidth(), b1.getX());
+        b1.setY(Game.HEIGHT + 100);
         b1.handleScreenBoundary();
-        assertEquals(600 - b1.getHeight(), b1.getY());
+        assertEquals(Game.HEIGHT - b1.getHeight(), b1.getY());
         b1.setY(-10);
         b1.handleScreenBoundary();
         assertEquals(0, b1.getY());
@@ -71,7 +71,7 @@ public class BossTest {
     @Test
     void testOnGround() {
         assertFalse(b1.onGround());
-        b1.setY(500);
+        b1.setY(Game.HEIGHT - b1.getHeight());
         assertTrue(b1.onGround());
     }
 
@@ -107,14 +107,14 @@ public class BossTest {
         b3.attack(3);
         assertTrue(b3.getCurrentlyAttacking());
         BossAttack ba = b3.getBossAttacks().get(0);
-        assertEquals(800 - (int)b3.getX() - b3.getWidth(), ba.getWidth());
+        assertEquals(Game.WIDTH - (int)b3.getX() - b3.getWidth(), ba.getWidth());
         assertEquals(30, ba.getHeight());
         assertEquals(b3.getX() + b3.getWidth(), ba.getX());
         assertEquals(b3.getY(), ba.getY());
         b3.attack(4);
         assertTrue(b3.getCurrentlyAttacking());
         ba = b3.getBossAttacks().get(0);
-        assertEquals(800 - (int)b3.getX() - b3.getWidth(), ba.getWidth());
+        assertEquals(Game.WIDTH - (int)b3.getX() - b3.getWidth(), ba.getWidth());
         assertEquals(30, ba.getHeight());
         assertEquals(b3.getX() + b3.getWidth(), ba.getX());
         assertEquals(b3.getY(), ba.getY());

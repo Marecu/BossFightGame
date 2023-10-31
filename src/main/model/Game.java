@@ -10,11 +10,14 @@ import java.util.Map;
 
 public class Game implements Writable {
 
-    private static final double BOSS_START_POS_X = 600;
-    private static final double BOSS_START_POS_Y = 500;
+    public static final int WIDTH = 1400;
+    public static final int HEIGHT = 1000;
 
-    private static final double PLAYER_START_POS_X = 200;
-    private static final double PLAYER_START_POS_Y = 525;
+    public static final double BOSS_START_POS_X = WIDTH - Boss.WIDTH * 2;
+    public static final double BOSS_START_POS_Y = HEIGHT - Boss.HEIGHT;
+
+    public static final double PLAYER_START_POS_X = Player.PLAYER_WIDTH * 4;
+    public static final double PLAYER_START_POS_Y = HEIGHT - Player.PLAYER_HEIGHT;
 
     private static final double GRAVITATIONAL_CONSTANT = 9.81;
 

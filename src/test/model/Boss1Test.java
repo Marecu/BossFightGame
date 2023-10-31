@@ -60,7 +60,7 @@ public class Boss1Test {
         b1.attack3(p);
         assertTrue(b1.getCurrentlyAttacking());
         BossAttack ba = b1.getBossAttacks().get(0);
-        assertEquals(800 - (int)b1.getX() - b1.getWidth(), ba.getWidth());
+        assertEquals(Game.WIDTH - (int)b1.getX() - b1.getWidth(), ba.getWidth());
         assertEquals(30, ba.getHeight());
         assertEquals(b1.getX() + b1.getWidth(), ba.getX());
         assertEquals(b1.getY(), ba.getY());
@@ -96,7 +96,7 @@ public class Boss1Test {
         b1.setLastUsedAttack(2);
         b1.handleLingeringAttacks(p);
         assertTrue(b1.getCurrentlyAttacking());
-        b1.setY(600 - b1.getHeight());
+        b1.setY(Game.HEIGHT - b1.getHeight());
         b1.handleAttack2();
         assertFalse(b1.getCurrentlyAttacking());
         assertEquals(10, b1.getAttackTimer());
@@ -145,7 +145,7 @@ public class Boss1Test {
     @Test
     void testHandleAttack1EdgeR() {
         b1.attack1(p);
-        b1.setX(800 - b1.getWidth());
+        b1.setX(Game.WIDTH - b1.getWidth());
         b1.handleAttack1();
         assertFalse(b1.getMovementOverride());
         assertFalse(b1.getCurrentlyAttacking());
@@ -165,7 +165,7 @@ public class Boss1Test {
         b1.attack2(p);
         b1.handleAttack2();
         assertTrue(b1.getCurrentlyAttacking());
-        b1.setY(600 - b1.getHeight());
+        b1.setY(Game.HEIGHT - b1.getHeight());
         b1.handleAttack2();
         assertFalse(b1.getCurrentlyAttacking());
     }
