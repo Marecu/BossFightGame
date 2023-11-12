@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+//Represents a JSON writer that can write a game state into a stored file
+//CITATION: largely based on the JSON serialization demo given as an example in class
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;

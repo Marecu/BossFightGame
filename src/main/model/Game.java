@@ -3,15 +3,16 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Set;
 
 //Represents the overall game and manages the progression of the game via user interaction
 
 public class Game implements Writable {
 
-    public static final int WIDTH = 1400;
-    public static final int HEIGHT = 1000;
+    public static final int WIDTH = 1250;
+    public static final int HEIGHT = 550;
 
     public static final double BOSS_START_POS_X = WIDTH - Boss.WIDTH * 2;
     public static final double BOSS_START_POS_Y = HEIGHT - Boss.HEIGHT;
@@ -19,32 +20,35 @@ public class Game implements Writable {
     public static final double PLAYER_START_POS_X = Player.PLAYER_WIDTH * 4;
     public static final double PLAYER_START_POS_Y = HEIGHT - Player.PLAYER_HEIGHT;
 
-    private static final double GRAVITATIONAL_CONSTANT = 9.81;
+    private static final double GRAVITATIONAL_CONSTANT = 0.25;
 
     private Player player;
     private Boss boss;
-    private boolean save;
+    private boolean pause;
 
     //EFFECTS: constructs a game with the player and boss1 having specified data
     public Game(Player p, Boss b) {
         this.player = p;
         this.boss = b;
-        this.save = false;
     }
 
     //EFFECTS: creates a new game with the player and boss1 in their starting positions
     public Game() {
         this.player = new Player(PLAYER_START_POS_X, PLAYER_START_POS_Y);
         this.boss = new Boss1(BOSS_START_POS_X, BOSS_START_POS_Y, this.player);
-        this.save = false;
     }
 
     //EFFECTS: updates the game state - moves everything, handles the boss' attacks, and processes user input
     //MODIFIES: this.player, this.boss, this
-    public void update(String input) {
-        handleUserInput(input);
+    public void update(Set<Integer> keys) {
+        for (Integer next : keys) {
+            handleUserInput(next);
+        }
         this.player.move();
         this.player.moveProjectiles();
+        this.player.tickIFrames();
+        this.player.tickAttackLockouts();
+        this.boss.tickIFrames();
         this.boss.move(this.player);
         applyGravity();
         this.boss.handleAttackCycle();
@@ -55,26 +59,24 @@ public class Game implements Writable {
 
     //EFFECTS: applies the correct action based on the user's input
     //MODIFIES: this.player
-    void handleUserInput(String input) {
-        switch (input) {
-            case "a":
-                this.player.moveL();
-                break;
-            case "d":
-                this.player.moveR();
-                break;
-            case "jump":
-                this.player.jump();
-                break;
-            case "attack":
-                this.player.attack();
-                break;
-            case "spell":
-                this.player.spellAttack();
-                break;
-            case "save":
-                this.save = true;
-                break;
+    void handleUserInput(int input) {
+        if (input == KeyEvent.VK_A) {
+            this.player.moveL();
+        }
+        if (input == KeyEvent.VK_D) {
+            this.player.moveR();
+        }
+        if (input == KeyEvent.VK_SPACE || input == KeyEvent.VK_W) {
+            this.player.jump();
+        }
+        if (input == KeyEvent.VK_ENTER) {
+            this.player.attack();
+        }
+        if (input == KeyEvent.VK_E) {
+            this.player.spellAttack();
+        }
+        if (input == KeyEvent.VK_ESCAPE) {
+            this.pause = true;
         }
     }
 
@@ -121,10 +123,10 @@ public class Game implements Writable {
             double nextH = nextY + next.getHeight();
             if ((nextX <= bossW) && (nextW >= bossX) && (nextY <= bossH) && (nextH >= bossY)) {
                 System.out.println("Attack hit!");
-                boss.takeDamage(1);
-                if (!next.getMoving()) { //If the attack isn't a basic attack
+                if (!next.getMoving() && !boss.getInvincible()) { //If the attack isn't a projectile
                     player.incrementAttackCounter();
                 }
+                boss.takeDamage(1);
             }
         }
     }
@@ -180,6 +182,10 @@ public class Game implements Writable {
         return js;
     }
 
+    public void unpause() {
+        this.pause = false;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
@@ -192,8 +198,8 @@ public class Game implements Writable {
         return this.GRAVITATIONAL_CONSTANT;
     }
 
-    public boolean getSave() {
-        return this.save;
+    public boolean getPause() {
+        return this.pause;
     }
 
 }

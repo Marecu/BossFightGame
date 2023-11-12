@@ -14,34 +14,34 @@ public class BossTest {
 
     @BeforeEach
     void runBefore() {
-        p = new Player(100, 100);
-        b1 = new Boss1(200, 300, p); //uses Boss1 to test since Boss cannot be constructed as it is abstract
+        p = new Player(Game.PLAYER_START_POS_X, Game.PLAYER_START_POS_Y);
+        b1 = new Boss1(Game.BOSS_START_POS_X, Game.BOSS_START_POS_Y, p); //uses Boss1 to test since Boss cannot be constructed as it is abstract
         b2 = new Boss1(400, 400, p);
         b3 = new Boss1(100, 200, p);
     }
 
     @Test
     void testConstructor() {
-        assertEquals(200, b1.getX());
-        assertEquals(300, b1.getY());
+        assertEquals(Game.BOSS_START_POS_X, b1.getX());
+        assertEquals(Game.BOSS_START_POS_Y, b1.getY());
         assertEquals(p, b1.getPlayer());
-        assertEquals(30, b1.getHP());
+        assertEquals(Boss.STARTING_HP, b1.getHP());
     }
 
     @Test
     void testMove() {
         b1.move(p);
-        assertEquals(190, b1.getX());
+        assertEquals(Game.BOSS_START_POS_X - Boss.BASE_MOVE_SPEED, b1.getX());
         b1.setBonusMoveSpeed(20);
         b1.move(p);
-        assertEquals(160, b1.getX());
-        b1.setX(25);
+        assertEquals(Game.BOSS_START_POS_X - (2 * Boss.BASE_MOVE_SPEED) - 20, b1.getX());
+        b1.setX((int) Game.PLAYER_START_POS_X - 10);
         b1.move(p);
-        assertEquals(55, b1.getX());
+        assertEquals(Game.PLAYER_START_POS_X - 10 + 20 + Boss.BASE_MOVE_SPEED, b1.getX());
         b1.setMovementOverride(true);
-        b1.setX(200);
+        b1.setX((int) Game.PLAYER_START_POS_X + 500);
         b1.move(p);
-        assertEquals(230, b1.getX());
+        assertEquals(Game.PLAYER_START_POS_X + 500 + Boss.BASE_MOVE_SPEED + 20, b1.getX());
     }
 
     @Test
@@ -70,6 +70,7 @@ public class BossTest {
 
     @Test
     void testOnGround() {
+        b1.setY(Game.HEIGHT - b1.getHeight() - 1);
         assertFalse(b1.onGround());
         b1.setY(Game.HEIGHT - b1.getHeight());
         assertTrue(b1.onGround());
@@ -85,7 +86,7 @@ public class BossTest {
         b1.handleAttackCycle();
         assertEquals(0, b1.getAttackTimer());
         b1.handleAttackCycle();
-        assertEquals(10, b1.getAttackTimer());
+        assertEquals(Boss.ATTACK_INTERVAL, b1.getAttackTimer());
     }
 
     @Test
@@ -99,16 +100,16 @@ public class BossTest {
         b1.attack(1);
         assertTrue(b1.getMovementOverride());
         assertTrue(b1.getCurrentlyAttacking());
-        assertEquals(30, b1.getBonusMoveSpeed());
+        assertEquals(Boss1.CHARGE_BONUS_SPEED, b1.getBonusMoveSpeed());
         b2.attack(2);
         assertTrue(b2.getCurrentlyAttacking());
-        assertEquals(100, b2.getX());
-        assertEquals(100, b2.getY());
+        assertEquals(p.getX(), b2.getX());
+        assertEquals(Boss1.TP_HEIGHT, b2.getY());
         b3.attack(3);
         assertTrue(b3.getCurrentlyAttacking());
         BossAttack ba = b3.getBossAttacks().get(0);
         assertEquals(Game.WIDTH - (int)b3.getX() - b3.getWidth(), ba.getWidth());
-        assertEquals(30, ba.getHeight());
+        assertEquals(Boss1.BEAM_HEIGHT, ba.getHeight());
         assertEquals(b3.getX() + b3.getWidth(), ba.getX());
         assertEquals(b3.getY(), ba.getY());
         b3.attack(4);
@@ -124,8 +125,26 @@ public class BossTest {
     void testTakeDamage() {
         b1.takeDamage(1);
         assertEquals(29, b1.getHP());
+        for (int i = 0; i <= Boss.MAX_IFRAMES; i++) {
+            b1.tickIFrames();
+        }
         b1.takeDamage(5);
+        assertEquals(24, b1.getHP());
+        b1.takeDamage(10);
         assertEquals(24, b1.getHP());
     }
 
+    @Test
+    void testTickIFrames() {
+        b1.takeDamage(1);
+        assertEquals(Boss.MAX_IFRAMES, b1.getIframes());
+        b1.tickIFrames();
+        assertEquals(Boss.MAX_IFRAMES - 1, b1.getIframes());
+        for (int i = 0; i < Boss.MAX_IFRAMES; i++) {
+            b1.tickIFrames();
+        }
+        assertEquals(0, b1.getIframes());
+        b1.tickIFrames();
+        assertEquals(0, b1.getIframes());
+    }
 }
