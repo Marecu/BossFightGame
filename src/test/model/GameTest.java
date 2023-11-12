@@ -302,9 +302,8 @@ public class GameTest {
         assertFalse(g1.isGameOver());
         g1.getPlayer().takeDamage(g1.getPlayer().getHP());
         assertTrue(g1.isGameOver());
-        g1.getPlayer().takeDamage(-1);
-        g1.getBoss().takeDamage(g1.getBoss().getHP());
-        assertTrue(g1.isGameOver());
+        g2.getBoss().takeDamage(g2.getBoss().getHP());
+        assertTrue(g2.isGameOver());
     }
 
     @Test
