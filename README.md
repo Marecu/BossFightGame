@@ -38,3 +38,22 @@ to me because I enjoy playing video games and because I am interested in game de
 - As a user, I want to be able to see my remaining HP
 - As a user, I want to have the option to save the current game state
 - As a user, I want to have the option to load a game state from a saved file
+
+## Instructions for Grader
+You can perform the first action related to adding Xs to a Y as follows:
+
+    1) Press "ENTER" to issue an attack.
+
+    2) You will be able to see the stationary player attack (X) you added to the list of player attacks (Y).
+
+You can perform the second action related to adding Xs to a Y as follows:
+
+    1) Hit the boss 3 total times with the attack outlined in Action 1.
+    
+    2) Press "E" to issue a spell attack. You will be able to see the moving player attack (X) added to the list of player attacks (Y).
+
+The visual component is visible immediately upon application start. The entire application is represented visually.
+
+You can save the game by pressing "ESC" to open the pause menu and selecting "Save and quit".
+
+You can load a saved game by pressing the "Load game" button on the home screen when the application is run.

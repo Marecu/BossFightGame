@@ -27,10 +27,18 @@
         "height": 40
       }
     ],
-    "hasJump": false
+    "hasJump": false,
+    "canAttack": true,
+    "lockoutTicks": 0,
+    "canSpell": true,
+    "spellLockoutTicks": 0,
+    "invincible": false,
+    "iframes": 0
   },
   "Boss1": {
     "posX": 200,
+    "invincible": false,
+    "iframes": 0,
     "movementOverride": true,
     "posY": 300,
     "bonusMoveSpeed": 40,

@@ -1,26 +1,34 @@
 {
     "Player": {
-        "posX": 130,
-        "posY": 525,
-        "speedY": 0,
-        "totalHits": 0,
-        "speedX": -20,
+        "canAttack": true,
+        "speedY": 7,
+        "speedX": 10.599999999999978,
+        "invincible": false,
         "hp": 3,
-        "facing": -1,
+        "lockoutTicks": 0,
+        "facing": 1,
         "playerAttacks": [],
-        "hasJump": true
+        "hasJump": false,
+        "posX": 703.8999999999993,
+        "posY": 364.5,
+        "canSpell": true,
+        "totalHits": 0,
+        "spellLockoutTicks": 0,
+        "iframes": 0
     },
     "Boss1": {
-        "posX": 550,
-        "movementOverride": false,
-        "posY": 500,
-        "bonusMoveSpeed": 0,
         "speedY": 0,
-        "lastUsedAttack": 0,
+        "invincible": false,
         "hp": 30,
-        "facing": -1,
-        "attackTimer": 5,
+        "facing": 1,
+        "attackTimer": 266,
+        "currentlyAttacking": false,
+        "posX": 548,
+        "movementOverride": false,
+        "posY": 450,
+        "bonusMoveSpeed": 0,
+        "lastUsedAttack": 0,
         "bossAttacks": [],
-        "currentlyAttacking": false
+        "iframes": 0
     }
 }

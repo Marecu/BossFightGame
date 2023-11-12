@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 //Represents a reader than can read stored data into a game state
+//CITATION: largely based on the JSON serialization demo given as an example in class
 public class JsonReader {
     private String filePath;
 
@@ -56,7 +57,14 @@ public class JsonReader {
         int hp = jo.getInt("hp");
         int totalHits = jo.getInt("totalHits");
         List<PlayerAttack> playerAttacks = parsePlayerAttacks(jo.getJSONArray("playerAttacks"));
-        return new Player(posX, posY, speedX, speedY, facing, hasJump, hp, totalHits, playerAttacks);
+        boolean invincible = jo.getBoolean("invincible");
+        int iframes = jo.getInt("iframes");
+        boolean canAttack = jo.getBoolean("canAttack");
+        int lockoutTicks = jo.getInt("lockoutTicks");
+        boolean canSpell = jo.getBoolean("canSpell");
+        int spellLockoutTicks = jo.getInt("spellLockoutTicks");
+        return new Player(posX, posY, speedX, speedY, facing, hasJump, hp, totalHits, playerAttacks, invincible,
+                iframes, canAttack, lockoutTicks, canSpell, spellLockoutTicks);
     }
 
     //EFFECTS: returns a list of player attacks parsed from a JSON array
@@ -89,8 +97,11 @@ public class JsonReader {
         boolean movementOverride = jo.getBoolean("movementOverride");
         List<BossAttack> bossAttacks = parseBossAttacks(jo.getJSONArray("bossAttacks"));
         int lastUsedAttack = jo.getInt("lastUsedAttack");
+        boolean invincible = jo.getBoolean("invincible");
+        int iframes = jo.getInt("iframes");
         return new Boss1(posX, posY, p, hp, speedY, facing, attackTimer, bonusMoveSpeed,
-                currentlyAttacking, movementOverride, bossAttacks, lastUsedAttack);
+                currentlyAttacking, movementOverride, bossAttacks, lastUsedAttack,
+                invincible, iframes);
     }
 
     //EFFECTS: returns a list of boss attacks parsed from the given JSON array

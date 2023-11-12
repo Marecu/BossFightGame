@@ -12,8 +12,9 @@ public abstract class Boss {
     protected static final int STARTING_HP = 30;
     public static final int WIDTH = 75;
     public static final int HEIGHT = 100;
-    protected static final int BASE_MOVE_SPEED = 10;
-    protected static final int ATTACK_INTERVAL = 10;
+    protected static final double BASE_MOVE_SPEED = 3;
+    protected static final int ATTACK_INTERVAL = 500;
+    protected static final int MAX_IFRAMES = 25;
 
     //posX and posY represent the coordinates of the top left of the boss' hitbox
     protected double posX;
@@ -23,11 +24,13 @@ public abstract class Boss {
     protected int hp;
     protected int attackTimer;
     protected Player player;
-    protected int bonusMoveSpeed;
+    protected double bonusMoveSpeed;
     protected int lastUsedAttack;
     protected boolean currentlyAttacking;
     protected boolean movementOverride;
     protected List<BossAttack> bossAttacks;
+    protected boolean invincible;
+    protected int iframes;
 
     abstract void attack1(Player p);
 
@@ -120,11 +123,25 @@ public abstract class Boss {
         }
     }
 
-    //EFFECTS: reduces the HP of boss by amount
+    //EFFECTS: reduces the HP of boss by amount if the boss has not taken damage recently
     //MODIFIES: this
     //REQUIRES: amount > 0
     void takeDamage(int amount) {
-        this.hp -= amount;
+        if (!this.invincible) {
+            this.hp -= amount;
+            this.iframes = MAX_IFRAMES;
+            this.invincible = true;
+        }
+    }
+
+    //EFFECTS: reduces the boss' invincibility period after being hit
+    //MODIFIES: this
+    void tickIFrames() {
+        if (this.iframes > 0) {
+            this.iframes -= 1;
+        } else {
+            this.invincible = false;
+        }
     }
 
     public double getX() {
@@ -151,7 +168,7 @@ public abstract class Boss {
         return this.player;
     }
 
-    public int getBonusMoveSpeed() {
+    public double getBonusMoveSpeed() {
         return this.bonusMoveSpeed;
     }
 
@@ -181,6 +198,14 @@ public abstract class Boss {
 
     public int getWidth() {
         return this.WIDTH;
+    }
+
+    public boolean getInvincible() {
+        return this.invincible;
+    }
+
+    public int getIframes() {
+        return this.iframes;
     }
 
     //Setters for testing purposes

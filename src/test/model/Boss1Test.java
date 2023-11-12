@@ -31,7 +31,7 @@ public class Boss1Test {
         assertEquals(30, b1.getHP());
         assertEquals(0, b1.getSpeedY());
         assertEquals(1, b1.getFacing());
-        assertEquals(10, b1.getAttackTimer());
+        assertEquals(Boss.ATTACK_INTERVAL, b1.getAttackTimer());
         assertEquals(p, b1.getPlayer());
         assertEquals(0, b1.getBonusMoveSpeed());
         assertFalse(b1.getCurrentlyAttacking());
@@ -44,7 +44,7 @@ public class Boss1Test {
         b1.attack1(p);
         assertTrue(b1.getMovementOverride());
         assertTrue(b1.getCurrentlyAttacking());
-        assertEquals(30, b1.getBonusMoveSpeed());
+        assertEquals(Boss1.CHARGE_BONUS_SPEED, b1.getBonusMoveSpeed());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class Boss1Test {
         b1.handleLingeringAttacks(p);
         assertFalse(b1.getMovementOverride());
         assertFalse(b1.getCurrentlyAttacking());
-        assertEquals(10, b1.getAttackTimer());
+        assertEquals(Boss.ATTACK_INTERVAL, b1.getAttackTimer());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class Boss1Test {
         b1.setY(Game.HEIGHT - b1.getHeight());
         b1.handleAttack2();
         assertFalse(b1.getCurrentlyAttacking());
-        assertEquals(10, b1.getAttackTimer());
+        assertEquals(Boss.ATTACK_INTERVAL, b1.getAttackTimer());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class Boss1Test {
         assertEquals(0, b1.getBeamTimer());
         assertFalse(b1.getCurrentlyAttacking());
         assertTrue(b1.getBossAttacks().isEmpty());
-        assertEquals(10, b1.getAttackTimer());
+        assertEquals(Boss.ATTACK_INTERVAL, b1.getAttackTimer());
     }
 
     @Test

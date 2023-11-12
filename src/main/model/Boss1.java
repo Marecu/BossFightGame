@@ -10,15 +10,16 @@ import java.util.List;
 
 public class Boss1 extends Boss {
 
-    private static final int BEAM_HEIGHT = 30;
-    private static final int TP_HEIGHT = 100;
+    public static final int BEAM_HEIGHT = 30;
+    public static final int TP_HEIGHT = 100;
+    public static final int CHARGE_BONUS_SPEED = 3;
 
     private int beamTimer;
 
     //Creates a boss1 with the specified data
     public Boss1(double x, double y, Player p, int hp, double speedY, int facing, int attackTimer, int bonusMoveSpeed,
                  boolean currentlyAttacking, boolean movementOverride, List<BossAttack> bossAttacks,
-                 int lastUsedAttack) {
+                 int lastUsedAttack, boolean invincible, int iframes) {
         this.posX = x;
         this.posY = y;
         this.player = p;
@@ -31,6 +32,8 @@ public class Boss1 extends Boss {
         this.movementOverride = movementOverride;
         this.bossAttacks = bossAttacks;
         this.lastUsedAttack = lastUsedAttack;
+        this.invincible = invincible;
+        this.iframes = iframes;
     }
 
     //Creates a new boss1 at the specified coordinates that attacks the specified player p
@@ -46,6 +49,8 @@ public class Boss1 extends Boss {
         this.currentlyAttacking = false;
         this.movementOverride = false;
         this.bossAttacks = new ArrayList<>();
+        this.invincible = false;
+        this.iframes = 0;
     }
 
     @Override
@@ -54,7 +59,7 @@ public class Boss1 extends Boss {
     void attack1(Player p) {
         this.currentlyAttacking = true;
         this.movementOverride = true;
-        this.bonusMoveSpeed = 30;
+        this.bonusMoveSpeed = CHARGE_BONUS_SPEED;
         System.out.println("The boss is using Attack 1: Charge!");
     }
 
@@ -124,6 +129,8 @@ public class Boss1 extends Boss {
         bossData.put("movementOverride", this.movementOverride);
         bossData.put("bossAttacks", parseAttacksJson());
         bossData.put("lastUsedAttack", this.lastUsedAttack);
+        bossData.put("invincible", this.invincible);
+        bossData.put("iframes", this.iframes);
         return bossData;
     }
 
