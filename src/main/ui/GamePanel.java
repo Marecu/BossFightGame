@@ -240,6 +240,7 @@ public class GamePanel extends JPanel {
         }
     }
 
+    //EFFECTS: returns the correct frame in the animation cycle for the boss
     private Sprite getBossFrame(Boss b) {
         if (!b.onGround()) {
             return this.bossWalk2;
