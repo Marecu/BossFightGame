@@ -24,7 +24,6 @@ public class BossFight extends JFrame {
     public static final int FLOOR_HEIGHT = 75;
     public static final Dimension WINDOW = new Dimension(Game.WIDTH, Game.HEIGHT + FLOOR_HEIGHT);
     private static final int TIME_STEP = 10;
-    private Scanner scan;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private Game game;
@@ -37,7 +36,6 @@ public class BossFight extends JFrame {
     //Runs the game
     public BossFight() {
         super("Boss Fight Game");
-        this.scan = new Scanner(System.in);
         this.jsonWriter = new JsonWriter(FILE_PATH);
         this.jsonReader = new JsonReader(FILE_PATH);
         this.keys = new HashSet<>();

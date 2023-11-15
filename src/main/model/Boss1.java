@@ -61,7 +61,6 @@ public class Boss1 extends Boss {
         this.currentlyAttacking = true;
         this.movementOverride = true;
         this.bonusMoveSpeed = CHARGE_BONUS_SPEED;
-        System.out.println("The boss is using Attack 1: Charge!");
     }
 
     @Override
@@ -71,7 +70,6 @@ public class Boss1 extends Boss {
         this.currentlyAttacking = true;
         this.posX = p.getX();
         this.posY = TP_HEIGHT;
-        System.out.println("The boss is using Attack 2: Plunge!");
     }
 
     @Override
@@ -93,7 +91,6 @@ public class Boss1 extends Boss {
         this.bossAttacks.add(beam);
         this.beamTimer = BEAM_DURATION;
         this.bonusMoveSpeed = -1 * BASE_MOVE_SPEED; //Stop movement
-        System.out.println("The boss is using Attack 3: Beam!");
     }
 
     @Override

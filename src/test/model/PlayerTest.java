@@ -148,6 +148,7 @@ class PlayerTest {
         resetAttacks(p1);
         p1.spellAttack();
         assertEquals(3, p1.getPlayerAttacks().size());
+        resetAttacks(p1);
         p1.spellAttack();
         assertEquals(3, p1.getPlayerAttacks().size());
     }

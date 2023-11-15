@@ -42,6 +42,8 @@ public class GamePanel extends JPanel {
     private Sprite bossCrystal1;
     private Sprite bossCrystal2;
     private Sprite bossCrystal3;
+    private Sprite background;
+    private Sprite ground;
 
     private int animationCounter;
     private int animationFrame;
@@ -71,27 +73,53 @@ public class GamePanel extends JPanel {
     private void loadSpriteSheet() {
         try {
             this.spriteSheet = new SpriteSheet(getSpriteSheetPath());
-            this.playerWalk1 = new Sprite(spriteSheet.splice(0, 0, 35, 69));
-            this.playerNeutral = new Sprite(spriteSheet.splice(36, 0, 35, 69));
-            this.playerWalk2 = new Sprite(spriteSheet.splice(72, 0, 35, 69));
-            this.playerAttack = new Sprite(spriteSheet.splice(108, 0, 35, 69));
-            this.playerHP = new Sprite(spriteSheet.splice(144, 0, 25, 25));
-            this.manaBarFrame = new Sprite(spriteSheet.splice(0, 91, 150, 60));
-            this.manaBarFrameAlt = new Sprite(spriteSheet.splice(0, 152, 150, 60));
-            this.basicAttack = new Sprite(spriteSheet.splice(0, 70, 75, 20));
-            this.missile = new Sprite(spriteSheet.splice(76, 70, 30, 10));
-            this.bossBarFrame = new Sprite(spriteSheet.splice(0, 254, 550, 95));
-            this.bossBeam = new Sprite(spriteSheet.splice(144, 26, 1, 30));
-            this.bossWalk1 = new Sprite(spriteSheet.splice(70, 396, 69, 116));
-            this.bossWalk2 = new Sprite(spriteSheet.splice(0, 396, 69, 116));
-            this.bossNeutral = new Sprite(spriteSheet.splice(140, 396, 69, 116));
-            this.bossCrystal1 = new Sprite(spriteSheet.splice(86, 81, 4, 4));
-            this.bossCrystal2 = new Sprite(spriteSheet.splice(81, 81, 4, 4));
-            this.bossCrystal3 = new Sprite(spriteSheet.splice(76, 81, 4, 4));
+            loadPlayerAssets();
+            loadBossAssets();
+            loadGuiAssets();
+            loadAmbientArtAssets();
         } catch (IOException e) {
             System.out.println("Failed to load assets.");
             exit(0);
         }
+    }
+
+    //EFFECTS: loads all assets related to the player
+    //MODIFIES: this
+    private void loadPlayerAssets() {
+        this.playerWalk1 = new Sprite(spriteSheet.splice(0, 0, 35, 69));
+        this.playerNeutral = new Sprite(spriteSheet.splice(36, 0, 35, 69));
+        this.playerWalk2 = new Sprite(spriteSheet.splice(72, 0, 35, 69));
+        this.playerAttack = new Sprite(spriteSheet.splice(108, 0, 35, 69));
+        this.basicAttack = new Sprite(spriteSheet.splice(0, 70, 75, 20));
+        this.missile = new Sprite(spriteSheet.splice(76, 70, 30, 10));
+    }
+
+    //EFFECTS: loads all assets related to the boss
+    //MODIFIES: this
+    private void loadBossAssets() {
+        this.bossBeam = new Sprite(spriteSheet.splice(144, 26, 1, 30));
+        this.bossWalk1 = new Sprite(spriteSheet.splice(70, 396, 69, 116));
+        this.bossWalk2 = new Sprite(spriteSheet.splice(0, 396, 69, 116));
+        this.bossNeutral = new Sprite(spriteSheet.splice(140, 396, 69, 116));
+        this.bossCrystal1 = new Sprite(spriteSheet.splice(86, 81, 4, 4));
+        this.bossCrystal2 = new Sprite(spriteSheet.splice(81, 81, 4, 4));
+        this.bossCrystal3 = new Sprite(spriteSheet.splice(76, 81, 4, 4));
+    }
+
+    //EFFECTS: Loads all assets related to the GUI
+    //MODIFIES: this
+    private void loadGuiAssets() {
+        this.playerHP = new Sprite(spriteSheet.splice(144, 0, 25, 25));
+        this.manaBarFrame = new Sprite(spriteSheet.splice(0, 91, 150, 60));
+        this.manaBarFrameAlt = new Sprite(spriteSheet.splice(0, 152, 150, 60));
+        this.bossBarFrame = new Sprite(spriteSheet.splice(0, 254, 550, 95));
+    }
+
+    //EFFECTS: Loads the background and ground images
+    //MODIFIES: this
+    private void loadAmbientArtAssets() {
+        this.background = new Sprite(spriteSheet.splice(0, 513, 1250, 550));
+        this.ground = new Sprite(spriteSheet.splice(0, 1064, 1250, 75));
     }
 
     @Override
@@ -105,11 +133,12 @@ public class GamePanel extends JPanel {
     //EFFECTS: draws all game-relevant things onto the frame
     //MODIFIES: this
     private void drawGame(Graphics gr) {
+        drawBackground(gr);
+        drawGround(gr);
         drawPlayer(gr);
         drawPlayerAttacks(gr);
         drawBoss(gr);
         drawBossAttacks(gr);
-        drawGround(gr);
         drawGUI(gr);
         tickAnimation();
     }
@@ -255,7 +284,7 @@ public class GamePanel extends JPanel {
     //EFFECTS: draws the boss' attacks
     //MODIFIES: this
     private void drawBossAttacks(Graphics gr) {
-        List<BossAttack> bossAttacks = game.getBoss().getBossAttacks();
+        List<BossAttack> bossAttacks = this.game.getBoss().getBossAttacks();
         for (BossAttack next : bossAttacks) {
             drawBossAttack(gr, next);
         }
@@ -265,15 +294,20 @@ public class GamePanel extends JPanel {
     //MODIFIES: this
     private void drawBossAttack(Graphics gr, BossAttack ba) {
         for (int i = 0; i < ba.getWidth(); i++) {
-            gr.drawImage(bossBeam.getSprite(), (int) ba.getX() + i, (int) ba.getY(), this);
+            gr.drawImage(this.bossBeam.getSprite(), (int) ba.getX() + i, (int) ba.getY(), this);
         }
+    }
+
+    //EFFECTS: draws the background
+    //MODIFIES: this
+    private void drawBackground(Graphics gr) {
+        gr.drawImage(this.background.getSprite(), 0, 0, this);
     }
 
     //EFFECTS: draws the ground of the arena
     //MODIFIES: this
     private void drawGround(Graphics gr) {
-        gr.setColor(new Color(0, 0, 0));
-        gr.fillRect(0, Game.HEIGHT, Game.WIDTH, BossFight.FLOOR_HEIGHT);
+        gr.drawImage(this.ground.getSprite(), 0, Game.HEIGHT, this);
     }
 
     //EFFECTS: draws the player HP, player mana, and boss HP
@@ -333,7 +367,7 @@ public class GamePanel extends JPanel {
         this.manaLabel = new JLabel("");
         this.manaLabel.setPreferredSize(new Dimension(50, 25));
         this.manaLabel.setFont(new Font("Arial", Font.BOLD, 25));
-        this.manaLabel.setForeground(Color.BLACK);
+        this.manaLabel.setForeground(Color.WHITE);
         this.manaLabel.setBounds(25 + this.manaBarFrame.getSprite().getWidth() + 10,
                 60 + (this.manaBarFrame.getSprite().getHeight() - 20) / 2, 50, 20);
         add(this.manaLabel);

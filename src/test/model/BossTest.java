@@ -78,6 +78,9 @@ public class BossTest {
 
     @Test
     void testHandleAttackCycle() {
+        b1.setAttackTimer(Boss.TELEGRAPH_DELAY);
+        b1.handleAttackCycle();
+        assertEquals(Boss.TELEGRAPH_DELAY - 1, b1.getAttackTimer());
         b1.setAttackTimer(3);
         b1.handleAttackCycle();
         assertEquals(2, b1.getAttackTimer());
