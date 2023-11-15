@@ -17,7 +17,7 @@ import javax.swing.Timer;
 
 import static java.lang.System.exit;
 
-
+//Represents the whole application - a game where a player fights a boss
 public class BossFight extends JFrame {
 
     private static final String FILE_PATH = "./data/gameData.json";
@@ -34,6 +34,7 @@ public class BossFight extends JFrame {
     private PausePanel pp;
     private GameOverPanel gop;
 
+    //Runs the game
     public BossFight() {
         super("Boss Fight Game");
         this.scan = new Scanner(System.in);
@@ -48,7 +49,7 @@ public class BossFight extends JFrame {
         setMaximumSize(WINDOW);
         centreScreen();
         setVisible(true);
-        addPanels();
+        addStartPanel();
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     }
 
@@ -56,24 +57,24 @@ public class BossFight extends JFrame {
         new BossFight();
     }
 
-    private void addPanels() {
+    //EFFECTS: adds the start panel to the JFrame
+    //MODIFIES: this
+    private void addStartPanel() {
         sp = new StartPanel(this);
-        gop = new GameOverPanel(this);
         add(sp);
-        add(gop);
-        gop.setVisible(false);
         sp.setVisible(true);
     }
 
     //EFFECTS: moves the window to the centre of the screen
     //MODIFIES: this
+    //CITATION: taken from B02-SpaceInvadersBase
     private void centreScreen() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screen.width - getWidth()) / 2, ((screen.height - getHeight()) / 2) - 25);
     }
 
     //EFFECTS: adds a timer to the game that updates every TIME_STEP ms
-    //Created largely based on B02-SpaceInvadersBase
+    //CITATION: taken from B02-SpaceInvadersBase
     public void startTimer() {
         Timer t = new Timer(TIME_STEP, new ActionListener() {
             @Override
@@ -84,9 +85,7 @@ public class BossFight extends JFrame {
                     game.update(keys);
                     if (game.isGameOver()) {
                         handleGameOver();
-                        System.out.println("Game over");
                     }
-                    printGameStatus(game);
                     gp.repaint();
                 }
 
@@ -96,6 +95,9 @@ public class BossFight extends JFrame {
         t.start();
     }
 
+    /*
+    Class for handling user input via key presses
+     */
     private class KeyHandler implements KeyEventPostProcessor {
         @Override
         // EFFECTS: Adds key presses to the list of keys being pressed + removes keys no longer being pressed
@@ -114,37 +116,42 @@ public class BossFight extends JFrame {
         }
     }
 
+    /*
+    Class for handling the window being closed
+     */
     private class WindowHandler extends WindowAdapter {
         @Override
-        // EFFECTS: Handles the closing of the window, prompting the user to save their game
+        // EFFECTS: Kills the program when the window is closed
         // MODIFIES: this
         public void windowClosing(WindowEvent e) {
-            // DO STUFF, EXIT WITH System.exit(<exit code>)
+            exit(0);
         }
     }
 
+    //EFFECTS: sets the pause menu to visible and hides the game panel
+    //MODIFIES: this.gp, this.pp
     private void handlePause() {
         gp.setVisible(false);
         pp.setVisible(true);
+        pp.requestFocusInWindow();
     }
 
+    //EFFECTS: shows the game panel and hides the pause menu
+    //MODIFIES: this.gp, this.pp
     public void unpause() {
         pp.setVisible(false);
         gp.setVisible(true);
     }
 
+    //EFFECTS: hides the game panel and brings up the game over screen
+    //MODIFIES: this.gp, this.gop
     private void handleGameOver() {
         gp.setVisible(false);
+        gop.pullText();
         gop.setVisible(true);
     }
 
-    //SHOULD NOT BE NECESSARY ANYMORE
-    //void promptPlayer(Game g) {
-    //    System.out.println("Enter a move (a, d, jump, attack, spell, save):");
-    //    String userInput = scan.nextLine();
-    //    g.update(userInput);
-    //}
-
+    //EFFECTS: logs the game status (for debugging purposes)
     void printGameStatus(Game g) {
         System.out.println("You are located at: [" + g.getPlayer().getX() + ", " +  g.getPlayer().getY() + "]");
         System.out.println("Your speed is: [" + g.getPlayer().getSpeedX() + ", " + g.getPlayer().getSpeedY() + "]");
@@ -165,20 +172,30 @@ public class BossFight extends JFrame {
         System.out.println("The boss can attack in: " + g.getBoss().getAttackTimer() + " turns");
     }
 
+    //EFFECTS: creates a new game
+    //MODIFIES: this
     void newGame() {
         this.game = new Game();
         addGameRelevantPanels();
     }
 
+    //EFFECTS: adds the game and pause panels
+    //MODIFIES: this
+    //REQUIRES: game != null
     void addGameRelevantPanels() {
         gp = new GamePanel(this.game);
         pp = new PausePanel(this.game, this);
+        gop = new GameOverPanel(this.game, this);
         add(gp);
         add(pp);
+        add(gop);
         gp.setVisible(false);
         pp.setVisible(false);
+        gop.setVisible(false);
     }
 
+    //EFFECTS: saves the current game state to a data file
+    //MODIFIES: data/gameData.json
     void saveGame(Game g) {
         try {
             jsonWriter.open();
@@ -190,6 +207,8 @@ public class BossFight extends JFrame {
         }
     }
 
+    //EFFECTS: loads a saved game from a JSON file
+    //MODIFIES: this
     void loadGame() {
         try {
             this.game = jsonReader.read();
@@ -198,13 +217,6 @@ public class BossFight extends JFrame {
         } catch (IOException e) {
             System.out.println("Cannot read from saved file");
         }
-    }
-
-    //SHOULD NOT NEED ANYMORE
-    boolean promptLoad() {
-        System.out.println("Do you want to load a saved game? (Y/N)");
-        String userInput = scan.nextLine();
-        return (userInput.equals("Y"));
     }
 
     public JPanel getGamePanel() {

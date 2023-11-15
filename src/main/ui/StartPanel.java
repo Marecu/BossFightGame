@@ -18,9 +18,10 @@ public class StartPanel extends JPanel {
 
     private BossFight bf;
     private ButtonHandler bh;
-    private GridBagConstraints lowerBox;
-    private GridBagConstraints fullWidth;
+    private GridBagConstraints row2;
+    private GridBagConstraints row1;
 
+    //Creates a panel that is shown when the application is started
     public StartPanel(BossFight bf) {
         setPreferredSize(WINDOW);
         setMinimumSize(WINDOW);
@@ -30,12 +31,12 @@ public class StartPanel extends JPanel {
         this.bh = new ButtonHandler();
         setLayout(new GridBagLayout());
 
-        lowerBox = new GridBagConstraints();
-        lowerBox.gridy = 1;
-        lowerBox.insets = new Insets(MARGIN, MARGIN,
+        row2 = new GridBagConstraints();
+        row2.gridy = 1;
+        row2.insets = new Insets(MARGIN, MARGIN,
                 0, MARGIN);
-        fullWidth = new GridBagConstraints();
-        fullWidth.gridwidth = 2;
+        row1 = new GridBagConstraints();
+        row1.gridwidth = 2;
 
         addText();
         addButtons();
@@ -51,7 +52,7 @@ public class StartPanel extends JPanel {
         introText.setFont(new Font("Arial", Font.BOLD, 80));
         introText.setForeground(Color.WHITE);
         introText.setHorizontalAlignment(JLabel.CENTER);
-        add(introText, fullWidth);
+        add(introText, row1);
     }
 
     //EFFECTS: adds a "New Game" and a "Load Game" button to the panel
@@ -59,8 +60,8 @@ public class StartPanel extends JPanel {
     private void addButtons() {
         JButton newGame = createButton("New Game", "new", this.bh);
         JButton loadGame = createButton("Load Game", "load", this.bh);
-        add(newGame, lowerBox);
-        add(loadGame, lowerBox);
+        add(newGame, row2);
+        add(loadGame, row2);
     }
 
     // EFFECTS: Returns a pre-templated button

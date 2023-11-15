@@ -10,8 +10,9 @@ import java.util.ArrayList;
 
 public class Player {
 
-    public static final double PLAYER_HEIGHT = 75;
-    public static final double PLAYER_WIDTH = 35;
+    public static final int HITBOX_INSET = 3;
+    public static final double PLAYER_HEIGHT = 69 - 2 * HITBOX_INSET;
+    public static final double PLAYER_WIDTH = 35 - 2 * HITBOX_INSET;
     public static final double JUMP_STRENGTH = -10;
     public static final double ACCEL_STRENGTH = 0.1;
     public static final int SPELL_REQUIRED_HITS = 3;
@@ -19,10 +20,11 @@ public class Player {
     public static final int ATTACK_HEIGHT = 20;
     public static final int MISSILE_WIDTH = 30;
     public static final int MISSILE_HEIGHT = 10;
-    private static final double MISSILE_SPEED = 20;
+    public static final double MISSILE_SPEED = 20;
     private static final int MISSILE_LIFESPAN = 200;
     public static final int MAX_IFRAMES = 50;
     public static final int MAX_LOCKOUT_TICKS = 25;
+    public static final int STARTING_HP = 3;
 
     //posX and posY represent the coordinates of the top left of the player's hitbox
     private double posX;
@@ -70,7 +72,7 @@ public class Player {
         this.speedY = 0;
         this.facing = 1;
         this.hasJump = true;
-        this.hp = 3;
+        this.hp = STARTING_HP;
         this.totalHits = 0;
         this.playerAttacks = new ArrayList<>();
         this.invincible = false;
@@ -97,21 +99,21 @@ public class Player {
     //         by speedY
     //MODIFIES: this
     void move() {
-        if ((this.posX + speedX < (Game.WIDTH - this.PLAYER_WIDTH)) && (this.posX + speedX > 0)) {
+        if ((this.posX + speedX < (Game.WIDTH - PLAYER_WIDTH)) && (this.posX + speedX > 0)) {
             this.posX += speedX;
         } else {
             if (this.posX + speedX <= 0) {
                 this.posX = 0;
             } else {
-                this.posX = (Game.WIDTH - this.PLAYER_WIDTH);
+                this.posX = (Game.WIDTH - PLAYER_WIDTH);
             }
             this.speedX = 0;
         }
 
-        if (this.posY + this.speedY <= this.PLAYER_HEIGHT) {
-            this.posY = this.PLAYER_HEIGHT;
-        } else if (this.posY + this.speedY >= Game.HEIGHT - this.PLAYER_HEIGHT) {
-            this.posY = Game.HEIGHT - this.PLAYER_HEIGHT;
+        if (this.posY + this.speedY <= PLAYER_HEIGHT) {
+            this.posY = PLAYER_HEIGHT;
+        } else if (this.posY + this.speedY >= Game.HEIGHT - PLAYER_HEIGHT - HITBOX_INSET) {
+            this.posY = Game.HEIGHT - PLAYER_HEIGHT - HITBOX_INSET;
         } else {
             this.posY += speedY;
         }
@@ -141,13 +143,9 @@ public class Player {
     //MODIFIES: this
     void jump() {
         if (this.hasJump) {
-            this.accelerateY(this.JUMP_STRENGTH);
+            this.accelerateY(JUMP_STRENGTH);
             this.hasJump = false;
         }
-    }
-
-    void setHasJump(boolean jump) {
-        this.hasJump = jump;
     }
 
     //EFFECTS: causes the player to issue a basic attack in the direction they are facing if they can attack
@@ -156,14 +154,14 @@ public class Player {
         if (canAttack) {
             int posXOffset;
             if (facing == 1) {
-                posXOffset = (int)this.posX + (int)this.PLAYER_WIDTH;
+                posXOffset = (int)this.posX + (int)PLAYER_WIDTH;
             } else {
-                posXOffset = (int)this.posX - this.ATTACK_WIDTH;
+                posXOffset = (int)this.posX - ATTACK_WIDTH;
             }
-            PlayerAttack attack = new PlayerAttack(this.ATTACK_WIDTH,
-                    this.ATTACK_HEIGHT,
+            PlayerAttack attack = new PlayerAttack(ATTACK_WIDTH,
+                    ATTACK_HEIGHT,
                     posXOffset,
-                    this.posY + (this.PLAYER_HEIGHT / 2) - (this.ATTACK_HEIGHT / 2),
+                    this.posY + (PLAYER_HEIGHT / 2) - ((double) ATTACK_HEIGHT / 2),
                     MAX_LOCKOUT_TICKS / 2, false, this.facing);
             playerAttacks.add(attack);
             this.canAttack = false;
@@ -179,25 +177,24 @@ public class Player {
         if (canSpell) {
             int posXOffset;
             if (facing == 1) {
-                posXOffset = (int)this.posX + (int)this.PLAYER_WIDTH;
+                posXOffset = (int)this.posX + (int)PLAYER_WIDTH;
             } else {
-                posXOffset = (int)this.posX - this.MISSILE_WIDTH;
+                posXOffset = (int)this.posX - MISSILE_WIDTH;
             }
             if (totalHits >= SPELL_REQUIRED_HITS) {
-                int missilesShot = totalHits / SPELL_REQUIRED_HITS;
-                for (int i = 0; i < missilesShot; i++) {
-                    PlayerAttack projectile = new PlayerAttack(MISSILE_WIDTH, MISSILE_HEIGHT, posXOffset, this.posY
-                            + (this.PLAYER_HEIGHT / 2) - (this.MISSILE_HEIGHT / 2),
-                            MISSILE_LIFESPAN, true, this.facing);
-                    playerAttacks.add(projectile);
-                }
-                totalHits -= missilesShot * SPELL_REQUIRED_HITS;
+                PlayerAttack projectile = new PlayerAttack(MISSILE_WIDTH, MISSILE_HEIGHT, posXOffset, this.posY
+                        + (PLAYER_HEIGHT / 2) - ((double) MISSILE_HEIGHT / 2),
+                        MISSILE_LIFESPAN, true, this.facing);
+                playerAttacks.add(projectile);
+                totalHits -= SPELL_REQUIRED_HITS;
             }
             this.canSpell = false;
             this.spellLockoutTicks = MAX_LOCKOUT_TICKS;
         }
     }
 
+    //EFFECTS: reduces the lockout on the player's regular and spell attacks each frame
+    //MODIFIES: this
     void tickAttackLockouts() {
         if (this.lockoutTicks > 0) {
             this.lockoutTicks -= 1;
@@ -228,8 +225,8 @@ public class Player {
     }
 
     //EFFECTS: returns whether or not the player's hitbox is touching the ground
-    boolean onGround() {
-        return this.posY >= Game.HEIGHT - this.PLAYER_HEIGHT;
+    public boolean onGround() {
+        return this.posY >= Game.HEIGHT - PLAYER_HEIGHT - HITBOX_INSET;
     }
 
     //EFFECTS: reduces the player's hp by amount if the player has not been hit recently
@@ -243,7 +240,7 @@ public class Player {
         }
     }
 
-    //EFFECTS: reduces the player's invincibility period after being hit
+    //EFFECTS: reduces the player's invincibility period after being hit each frame
     //MODIFIES: this
     void tickIFrames() {
         if (this.iframes > 0) {
@@ -327,15 +324,15 @@ public class Player {
     }
 
     public double getHeight() {
-        return this.PLAYER_HEIGHT;
+        return PLAYER_HEIGHT;
     }
 
     public double getWidth() {
-        return this.PLAYER_WIDTH;
+        return PLAYER_WIDTH;
     }
 
     public double getJumpStrength() {
-        return this.JUMP_STRENGTH;
+        return JUMP_STRENGTH;
     }
 
     public boolean getInvincible() {
@@ -365,5 +362,9 @@ public class Player {
     //Setters for testing purposes:
     public void addPlayerAttack(PlayerAttack pa) {
         this.playerAttacks.add(pa);
+    }
+
+    public void setHasJump(boolean jump) {
+        this.hasJump = jump;
     }
 }

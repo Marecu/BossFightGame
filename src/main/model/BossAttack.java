@@ -1,13 +1,13 @@
 package model;
 
-//Represents an arbitrary boss-issued attack with a given size and position
-
 import org.json.JSONObject;
+
+//Represents an arbitrary boss-issued attack with a given size and position
 
 public class BossAttack {
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private double posX;
     private double posY;
 
@@ -20,6 +20,7 @@ public class BossAttack {
         this.posY = posY;
     }
 
+    //EFFECTS: returns a JSON Object containing the relevant data of the boss attack
     public JSONObject getData() {
         JSONObject data = new JSONObject();
         data.put("width", this.width);

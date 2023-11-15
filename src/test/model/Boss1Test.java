@@ -28,7 +28,7 @@ public class Boss1Test {
     void testConstructor() {
         assertEquals(600, b1.getX());
         assertEquals(500, b1.getY());
-        assertEquals(30, b1.getHP());
+        assertEquals(Boss.STARTING_HP, b1.getHP());
         assertEquals(0, b1.getSpeedY());
         assertEquals(1, b1.getFacing());
         assertEquals(Boss.ATTACK_INTERVAL, b1.getAttackTimer());
@@ -60,11 +60,12 @@ public class Boss1Test {
         b1.attack3(p);
         assertTrue(b1.getCurrentlyAttacking());
         BossAttack ba = b1.getBossAttacks().get(0);
+        assertEquals(-1 * Boss.BASE_MOVE_SPEED, b1.getBonusMoveSpeed());
         assertEquals(Game.WIDTH - (int)b1.getX() - b1.getWidth(), ba.getWidth());
         assertEquals(30, ba.getHeight());
         assertEquals(b1.getX() + b1.getWidth(), ba.getX());
-        assertEquals(b1.getY(), ba.getY());
-        assertEquals(3, b1.getBeamTimer());
+        assertEquals(b1.getY() + Boss.HEIGHT / 2 - Boss1.BEAM_HEIGHT / 2, ba.getY());
+        assertEquals(Boss1.BEAM_DURATION, b1.getBeamTimer());
     }
 
     @Test
@@ -73,10 +74,11 @@ public class Boss1Test {
         b1.attack3(p);
         assertTrue(b1.getCurrentlyAttacking());
         BossAttack ba = b1.getBossAttacks().get(0);
+        assertEquals(-1 * Boss.BASE_MOVE_SPEED, b1.getBonusMoveSpeed());
         assertEquals((int)b1.getX(), ba.getWidth());
         assertEquals(30, ba.getHeight());
         assertEquals(0, ba.getX());
-        assertEquals(b1.getY(), ba.getY());
+        assertEquals(b1.getY() + Boss.HEIGHT / 2 - Boss1.BEAM_HEIGHT / 2, ba.getY());
     }
 
     @Test
@@ -106,19 +108,13 @@ public class Boss1Test {
     void testHandleLingeringAttacksA3() {
         b1.attack3(p);
         b1.setLastUsedAttack(3);
+        for (int i = 1; i < Boss1.BEAM_DURATION + 1; i++) {
+            b1.handleLingeringAttacks(p);
+            assertEquals(Boss1.BEAM_DURATION - i, b1.getBeamTimer());
+            assertTrue(b1.getCurrentlyAttacking());
+            assertFalse(b1.getBossAttacks().isEmpty());
+        }
         b1.handleLingeringAttacks(p);
-        assertEquals(2, b1.getBeamTimer());
-        assertTrue(b1.getCurrentlyAttacking());
-        assertFalse(b1.getBossAttacks().isEmpty());
-        b1.handleAttack3();
-        assertEquals(1, b1.getBeamTimer());
-        assertTrue(b1.getCurrentlyAttacking());
-        assertFalse(b1.getBossAttacks().isEmpty());
-        b1.handleAttack3();
-        assertEquals(0, b1.getBeamTimer());
-        assertTrue(b1.getCurrentlyAttacking());
-        assertFalse(b1.getBossAttacks().isEmpty());
-        b1.handleAttack3();
         assertEquals(0, b1.getBeamTimer());
         assertFalse(b1.getCurrentlyAttacking());
         assertTrue(b1.getBossAttacks().isEmpty());
@@ -173,20 +169,16 @@ public class Boss1Test {
     @Test
     void testHandleAttack3() {
         b1.attack3(p);
-        b1.handleAttack3();
-        assertEquals(2, b1.getBeamTimer());
-        assertTrue(b1.getCurrentlyAttacking());
-        assertFalse(b1.getBossAttacks().isEmpty());
-        b1.handleAttack3();
-        assertEquals(1, b1.getBeamTimer());
-        assertTrue(b1.getCurrentlyAttacking());
-        assertFalse(b1.getBossAttacks().isEmpty());
-        b1.handleAttack3();
-        assertEquals(0, b1.getBeamTimer());
-        assertTrue(b1.getCurrentlyAttacking());
-        assertFalse(b1.getBossAttacks().isEmpty());
+        for (int i = 1; i < Boss1.BEAM_DURATION + 1; i++) {
+            b1.handleAttack3();
+            assertEquals(Boss1.BEAM_DURATION - i, b1.getBeamTimer());
+            assertEquals(-1 * Boss.BASE_MOVE_SPEED, b1.getBonusMoveSpeed());
+            assertTrue(b1.getCurrentlyAttacking());
+            assertFalse(b1.getBossAttacks().isEmpty());
+        }
         b1.handleAttack3();
         assertEquals(0, b1.getBeamTimer());
+        assertEquals(0, b1.getBonusMoveSpeed());
         assertFalse(b1.getCurrentlyAttacking());
         assertTrue(b1.getBossAttacks().isEmpty());
     }

@@ -52,8 +52,8 @@ You can perform the second action related to adding Xs to a Y as follows:
     
     2) Press "E" to issue a spell attack. You will be able to see the moving player attack (X) added to the list of player attacks (Y).
 
-The visual component is visible immediately upon application start. The entire application is represented visually.
+The visual component is visible immediately upon game start. The entire game is represented visually.
 
-You can save the game by pressing "ESC" to open the pause menu and selecting "Save and quit".
+You can save the game by pressing "ESC" (while actively in the game) to open the pause menu and selecting "Save and quit".
 
-You can load a saved game by pressing the "Load game" button on the home screen when the application is run.
+You can load a saved game by pressing the "Load Game" button on the home screen when the application is run.

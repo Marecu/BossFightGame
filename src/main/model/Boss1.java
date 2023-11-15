@@ -13,6 +13,7 @@ public class Boss1 extends Boss {
     public static final int BEAM_HEIGHT = 30;
     public static final int TP_HEIGHT = 100;
     public static final int CHARGE_BONUS_SPEED = 3;
+    public static final int BEAM_DURATION = 6;
 
     private int beamTimer;
 
@@ -41,10 +42,10 @@ public class Boss1 extends Boss {
         this.posX = x;
         this.posY = y;
         this.player = p;
-        this.hp = this.STARTING_HP;
+        this.hp = STARTING_HP;
         this.speedY = 0;
         this.facing = 1;
-        this.attackTimer = this.ATTACK_INTERVAL;
+        this.attackTimer = ATTACK_INTERVAL;
         this.bonusMoveSpeed = 0;
         this.currentlyAttacking = false;
         this.movementOverride = false;
@@ -69,7 +70,7 @@ public class Boss1 extends Boss {
     void attack2(Player p) {
         this.currentlyAttacking = true;
         this.posX = p.getX();
-        this.posY = this.TP_HEIGHT;
+        this.posY = TP_HEIGHT;
         System.out.println("The boss is using Attack 2: Plunge!");
     }
 
@@ -80,16 +81,18 @@ public class Boss1 extends Boss {
         this.currentlyAttacking = true;
         int width;
         double posXOffset;
+        double posYOffset = this.posY + (HEIGHT / 2) - (BEAM_HEIGHT / 2);
         if (facing == 1) {
-            width = Game.WIDTH - (int)this.posX - this.WIDTH;
-            posXOffset = this.posX + this.WIDTH;
+            width = Game.WIDTH - (int)this.posX - WIDTH;
+            posXOffset = this.posX + WIDTH;
         } else {
             width = (int)this.posX;
             posXOffset = 0;
         }
-        BossAttack beam = new BossAttack(width, this.BEAM_HEIGHT, posXOffset, this.posY);
+        BossAttack beam = new BossAttack(width, BEAM_HEIGHT, posXOffset, posYOffset);
         this.bossAttacks.add(beam);
-        this.beamTimer = 3;
+        this.beamTimer = BEAM_DURATION;
+        this.bonusMoveSpeed = -1 * BASE_MOVE_SPEED; //Stop movement
         System.out.println("The boss is using Attack 3: Beam!");
     }
 
@@ -110,12 +113,12 @@ public class Boss1 extends Boss {
                     handleAttack3();
                     break;
             }
-            this.attackTimer = this.ATTACK_INTERVAL;
+            this.attackTimer = ATTACK_INTERVAL;
         }
     }
 
     @Override
-    //returns a JSON object containing all the data about the boss
+    //EFFECTS: returns a JSON object containing all the data about the boss
     public JSONObject getData() {
         JSONObject bossData = new JSONObject();
         bossData.put("posX", this.posX);
@@ -147,7 +150,7 @@ public class Boss1 extends Boss {
     //EFFECTS: if the boss has hit the edge of the screen, removes bonus speed and resumes normal movement
     //MODIFIES: this
     void handleAttack1() {
-        if (this.posX <= 0 || this.posX >= (Game.WIDTH - Math.min(this.WIDTH, 700))) {
+        if (this.posX <= 0 || this.posX >= (Game.WIDTH - Math.min(WIDTH, 700))) {
             this.bonusMoveSpeed = 0;
             this.movementOverride = false;
             this.currentlyAttacking = false;
@@ -157,7 +160,7 @@ public class Boss1 extends Boss {
     //EFFECTS: resumes the attack cycle if the boss has returned to the ground
     //MODIFIES: this
     void handleAttack2() {
-        if (this.posY == Game.HEIGHT - this.HEIGHT) {
+        if (this.posY == Game.HEIGHT - HEIGHT) {
             this.currentlyAttacking = false;
         }
     }
@@ -167,6 +170,7 @@ public class Boss1 extends Boss {
     void handleAttack3() {
         if (this.beamTimer == 0) {
             this.bossAttacks.remove(0);
+            this.bonusMoveSpeed = 0;
             this.currentlyAttacking = false;
         } else {
             this.beamTimer--;

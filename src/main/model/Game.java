@@ -76,7 +76,7 @@ public class Game implements Writable {
             this.player.spellAttack();
         }
         if (input == KeyEvent.VK_ESCAPE) {
-            this.pause = true;
+            pause();
         }
     }
 
@@ -122,7 +122,6 @@ public class Game implements Writable {
             double nextW = nextX + next.getWidth();
             double nextH = nextY + next.getHeight();
             if ((nextX <= bossW) && (nextW >= bossX) && (nextY <= bossH) && (nextH >= bossY)) {
-                System.out.println("Attack hit!");
                 if (!next.getMoving() && !boss.getInvincible()) { //If the attack isn't a projectile
                     player.incrementAttackCounter();
                 }
@@ -174,7 +173,7 @@ public class Game implements Writable {
         return (this.player.getHP() <= 0) || (this.boss.getHP() <= 0);
     }
 
-    //Returns the complete game state as a JSON object
+    //EFFECTS: Returns the complete game state as a JSON object
     public JSONObject toJson() {
         JSONObject js = new JSONObject();
         js.put("Player", this.player.getData()); //includes player attacks
@@ -182,6 +181,14 @@ public class Game implements Writable {
         return js;
     }
 
+    //EFFECTS: pauses the game
+    //MODIFIES: this
+    public void pause() {
+        this.pause = true;
+    }
+
+    //EFFECTS: unpauses the game
+    //MODIFIES: this
     public void unpause() {
         this.pause = false;
     }

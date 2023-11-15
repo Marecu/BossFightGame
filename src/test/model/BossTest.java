@@ -35,9 +35,9 @@ public class BossTest {
         b1.setBonusMoveSpeed(20);
         b1.move(p);
         assertEquals(Game.BOSS_START_POS_X - (2 * Boss.BASE_MOVE_SPEED) - 20, b1.getX());
-        b1.setX((int) Game.PLAYER_START_POS_X - 10);
+        b1.setX(0);
         b1.move(p);
-        assertEquals(Game.PLAYER_START_POS_X - 10 + 20 + Boss.BASE_MOVE_SPEED, b1.getX());
+        assertEquals( 20 + Boss.BASE_MOVE_SPEED, b1.getX());
         b1.setMovementOverride(true);
         b1.setX((int) Game.PLAYER_START_POS_X + 500);
         b1.move(p);
@@ -111,27 +111,27 @@ public class BossTest {
         assertEquals(Game.WIDTH - (int)b3.getX() - b3.getWidth(), ba.getWidth());
         assertEquals(Boss1.BEAM_HEIGHT, ba.getHeight());
         assertEquals(b3.getX() + b3.getWidth(), ba.getX());
-        assertEquals(b3.getY(), ba.getY());
+        assertEquals(b3.getY() + Boss.HEIGHT / 2 - Boss1.BEAM_HEIGHT / 2, ba.getY());
         b3.attack(4);
         assertTrue(b3.getCurrentlyAttacking());
         ba = b3.getBossAttacks().get(0);
         assertEquals(Game.WIDTH - (int)b3.getX() - b3.getWidth(), ba.getWidth());
         assertEquals(30, ba.getHeight());
         assertEquals(b3.getX() + b3.getWidth(), ba.getX());
-        assertEquals(b3.getY(), ba.getY());
+        assertEquals(b3.getY() + Boss.HEIGHT / 2 - Boss1.BEAM_HEIGHT / 2, ba.getY());
     }
 
     @Test
     void testTakeDamage() {
         b1.takeDamage(1);
-        assertEquals(29, b1.getHP());
+        assertEquals(Boss.STARTING_HP - 1, b1.getHP());
         for (int i = 0; i <= Boss.MAX_IFRAMES; i++) {
             b1.tickIFrames();
         }
         b1.takeDamage(5);
-        assertEquals(24, b1.getHP());
+        assertEquals(Boss.STARTING_HP - 1 - 5, b1.getHP());
         b1.takeDamage(10);
-        assertEquals(24, b1.getHP());
+        assertEquals(Boss.STARTING_HP - 1 - 5, b1.getHP());
     }
 
     @Test

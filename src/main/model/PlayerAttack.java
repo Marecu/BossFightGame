@@ -1,11 +1,8 @@
 package model;
 
-//Represents an arbitrary player-issued attack with a given size, position, and lifespan.
-
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+//Represents an arbitrary player-issued attack with a given size, position, and lifespan.
 
 public class PlayerAttack {
 

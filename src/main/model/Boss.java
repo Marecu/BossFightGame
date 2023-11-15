@@ -9,12 +9,13 @@ import java.util.List;
 
 public abstract class Boss {
 
-    protected static final int STARTING_HP = 30;
-    public static final int WIDTH = 75;
-    public static final int HEIGHT = 100;
-    protected static final double BASE_MOVE_SPEED = 3;
+    public static final int STARTING_HP = 30;
+    public static final int WIDTH = 69;
+    public static final int HEIGHT = 116;
+    public static final double BASE_MOVE_SPEED = 3;
     protected static final int ATTACK_INTERVAL = 500;
     protected static final int MAX_IFRAMES = 25;
+    public static final int TELEGRAPH_DELAY = 50;
 
     //posX and posY represent the coordinates of the top left of the boss' hitbox
     protected double posX;
@@ -47,13 +48,15 @@ public abstract class Boss {
     //MODIFIES: this
     void move(Player p) {
         if (movementOverride) {
-            this.posX += (this.BASE_MOVE_SPEED + this.bonusMoveSpeed) * facing;
+            this.posX += (BASE_MOVE_SPEED + this.bonusMoveSpeed) * facing;
         } else {
-            if (p.getX() < this.posX) {
-                this.posX -= this.BASE_MOVE_SPEED + this.bonusMoveSpeed;
+            double playerCentre = p.getX() + (p.getWidth() / 2);
+            double bossCentre = this.posX + ((double) WIDTH / 2);
+            if (playerCentre < bossCentre) {
+                this.posX -= BASE_MOVE_SPEED + this.bonusMoveSpeed;
                 facing = -1;
             } else {
-                this.posX += this.BASE_MOVE_SPEED + this.bonusMoveSpeed;
+                this.posX += BASE_MOVE_SPEED + this.bonusMoveSpeed;
                 facing = 1;
             }
         }
@@ -66,11 +69,11 @@ public abstract class Boss {
     void handleScreenBoundary() {
         if (this.posX < 0) {
             this.posX = 0;
-        } else if (this.posX > Game.WIDTH - this.WIDTH) {
-            this.posX = Game.WIDTH - this.WIDTH;
+        } else if (this.posX > Game.WIDTH - WIDTH) {
+            this.posX = Game.WIDTH - WIDTH;
         }
-        if (this.posY > Game.HEIGHT - this.HEIGHT) {
-            this.posY = Game.HEIGHT - this.HEIGHT;
+        if (this.posY > Game.HEIGHT - HEIGHT) {
+            this.posY = Game.HEIGHT - HEIGHT;
         } else if (this.posY < 0) {
             this.posY = 0;
         }
@@ -83,28 +86,30 @@ public abstract class Boss {
     }
 
     //EFFECTS: returns whether the boss' hitbox is on the ground
-    boolean onGround() {
-        return this.posY >= Game.HEIGHT - this.HEIGHT;
+    public boolean onGround() {
+        return this.posY >= Game.HEIGHT - HEIGHT;
     }
 
     //EFFECTS: issues an attack and resets the attack timer if the timer is 0, otherwise decrements the timer by 1
     //MODIFIES: this
     void handleAttackCycle() {
-        if (this.attackTimer == 0) {
+        if (this.attackTimer == TELEGRAPH_DELAY) {
             generateAttack();
+        }
+        if (this.attackTimer == 0) {
+            attack(lastUsedAttack);
             this.attackTimer = ATTACK_INTERVAL;
         } else {
             attackTimer--;
         }
     }
 
-    //EFFECTS: randomly selects one of the 3 available attacks and attacks the player
+    //EFFECTS: randomly selects one of the 3 available attacks for the boss to use next
     //MODIFIES: this
     void generateAttack() {
         Random r = new Random();
         int attackNumber = r.nextInt(3) + 1; //Generates a random number from 1-3 (inclusive)
         this.lastUsedAttack = attackNumber;
-        attack(attackNumber);
     }
 
     //EFFECTS: attacks the player with the attack specified by attackNumber
@@ -193,11 +198,11 @@ public abstract class Boss {
     }
 
     public int getHeight() {
-        return this.HEIGHT;
+        return HEIGHT;
     }
 
     public int getWidth() {
-        return this.WIDTH;
+        return WIDTH;
     }
 
     public boolean getInvincible() {

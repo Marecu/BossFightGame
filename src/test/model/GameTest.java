@@ -97,61 +97,63 @@ public class GameTest {
         g1.getBoss().setX((int) (Game.PLAYER_START_POS_X + Player.PLAYER_WIDTH / 2));
         g1.getBoss().setY((int) (Game.PLAYER_START_POS_Y + Player.PLAYER_HEIGHT / 2));
         g1.checkCollisions();
-        assertEquals(2, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 1, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50,50, Game.PLAYER_START_POS_X + Player.PLAYER_WIDTH / 2, Game.PLAYER_START_POS_Y + Player.PLAYER_HEIGHT / 2));
         g1.getPlayer().attack();
         assertEquals(Game.PLAYER_START_POS_X + Player.PLAYER_WIDTH, g1.getPlayer().getPlayerAttacks().get(0).getX());
         assertEquals(Game.PLAYER_START_POS_Y + (Player.PLAYER_HEIGHT / 2) - (Player.ATTACK_HEIGHT / 2), g1.getPlayer().getPlayerAttacks().get(0).getY());
         g1.checkCollisions();
-        assertEquals(1, g1.getPlayer().getHP());
-        assertEquals(29, g1.getBoss().getHP());
+        assertEquals(Player.STARTING_HP - 2, g1.getPlayer().getHP());
+        assertEquals(Boss.STARTING_HP - 1, g1.getBoss().getHP());
     }
 
     @Test
     void testCheckPlayerAttacks() {
         g1.getPlayer().attack();
         g1.checkPlayerAttacks(0, 0, 1, 1);
-        assertEquals(30, g1.getBoss().getHP()); //No hitbox overlap
+        assertEquals(Boss.STARTING_HP, g1.getBoss().getHP()); //No hitbox overlap
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X + 1, Game.HEIGHT - Player.PLAYER_HEIGHT - Boss.HEIGHT / 2, Game.PLAYER_START_POS_X + 1000, Game.HEIGHT - Player.PLAYER_HEIGHT / 2);
-        assertEquals(29, g1.getBoss().getHP()); //Overlap bottom left of boss
+        assertEquals(Boss.STARTING_HP - 1, g1.getBoss().getHP()); //Overlap bottom left of boss
         resetBossIframes();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X + 1, Game.HEIGHT - Player.PLAYER_HEIGHT / 2, Game.PLAYER_START_POS_X + 1000, Game.HEIGHT + Boss.HEIGHT / 2);
-        assertEquals(28, g1.getBoss().getHP()); //Overlap top left of boss
+        assertEquals(Boss.STARTING_HP - 2, g1.getBoss().getHP()); //Overlap top left of boss
         resetBossIframes();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Player.PLAYER_HEIGHT / 2, Game.PLAYER_START_POS_X + 50, Game.HEIGHT + Boss.HEIGHT / 2);
-        assertEquals(27, g1.getBoss().getHP()); //Overlap top right of boss
+        assertEquals(Boss.STARTING_HP - 3, g1.getBoss().getHP()); //Overlap top right of boss
         resetBossIframes();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Player.PLAYER_HEIGHT - Boss.HEIGHT / 2, Game.PLAYER_START_POS_X + 50, Game.HEIGHT - Player.PLAYER_HEIGHT / 2);
-        assertEquals(26, g1.getBoss().getHP()); //Overlap bottom right of boss
+        assertEquals(Boss.STARTING_HP - 4, g1.getBoss().getHP()); //Overlap bottom right of boss
         resetBossIframes();
         resetAttackLockout();
         g1.getPlayer().attack();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Player.PLAYER_HEIGHT / 2, Game.PLAYER_START_POS_X + 50, Game.HEIGHT + Boss.HEIGHT / 2);
-        assertEquals(25, g1.getBoss().getHP()); //Test multiple attacks
+        assertEquals(Boss.STARTING_HP - 5, g1.getBoss().getHP()); //Test multiple attacks
         resetBossIframes();
         g1.getPlayer().incrementAttackCounter();
         assertEquals(6, g1.getPlayer().getTotalHits());
         g1.getPlayer().spellAttack();
+        resetAttackLockout();
+        g1.getPlayer().spellAttack();
         assertEquals(4, g1.getPlayer().getPlayerAttacks().size());
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Boss.HEIGHT, Game.PLAYER_START_POS_X + 50, Game.HEIGHT);
-        assertEquals(24, g1.getBoss().getHP());
+        assertEquals(Boss.STARTING_HP - 6, g1.getBoss().getHP());
         resetBossIframes();
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
         g1.checkPlayerAttacks(1950, 2025, 2025, 2030); //Enclose left side of BA in player
-        assertEquals(23, g1.getBoss().getHP());
+        assertEquals(Boss.STARTING_HP - 7, g1.getBoss().getHP());
         resetBossIframes();
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
         g1.checkPlayerAttacks(2025, 2025, 2075, 2030); //Enclose right side of BA in player
-        assertEquals(22, g1.getBoss().getHP());
+        assertEquals(Boss.STARTING_HP - 8, g1.getBoss().getHP());
         resetBossIframes();
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
         g1.checkPlayerAttacks(2025, 1950, 2030, 2025); //Enclose bottom side of BA in player
-        assertEquals(21, g1.getBoss().getHP());
+        assertEquals(Boss.STARTING_HP - 9, g1.getBoss().getHP());
         resetBossIframes();
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
         g1.checkPlayerAttacks(2025, 2025, 2030, 2075); //Enclose top side of BA in player
-        assertEquals(20, g1.getBoss().getHP());
+        assertEquals(Boss.STARTING_HP - 10, g1.getBoss().getHP());
         resetBossIframes();
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 3100, 3000, 1, false, 1));
         g1.checkPlayerAttacks(3000, 3000, 3050, 3050); //Fail first case
@@ -159,7 +161,7 @@ public class GameTest {
         g1.checkPlayerAttacks(4050, 4000, 4100, 4050); //Fail third case
         g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 25, 5000, 5000, 1, false, 1));
         g1.checkPlayerAttacks(5050, 5050, 5100, 5100); //Fail fourth case
-        assertEquals(20, g1.getBoss().getHP());
+        assertEquals(Boss.STARTING_HP - 10, g1.getBoss().getHP());
     }
 
     private void resetBossIframes() {
@@ -172,46 +174,46 @@ public class GameTest {
     void testCheckBossAttacks() {
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 300, 300));
         g1.checkBossAttacks(200, 525, 235, 600);
-        assertEquals(3, g1.getPlayer().getHP()); //No hitbox overlap
+        assertEquals(Player.STARTING_HP, g1.getPlayer().getHP()); //No hitbox overlap
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 160, 550));
         g1.checkBossAttacks(200, 525, 235, 600);
-        assertEquals(2, g1.getPlayer().getHP()); //Overlap bottom left of player
+        assertEquals(Player.STARTING_HP - 1, g1.getPlayer().getHP()); //Overlap bottom left of player
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 160, 485));
         g1.checkBossAttacks(200, 525, 235, 600);
-        assertEquals(1, g1.getPlayer().getHP()); //Overlap top left of player
+        assertEquals(Player.STARTING_HP - 2, g1.getPlayer().getHP()); //Overlap top left of player
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 220, 485));
         g1.checkBossAttacks(200, 525, 235, 600);
-        assertEquals(0, g1.getPlayer().getHP()); //Overlap top right of player
+        assertEquals(Player.STARTING_HP - 3, g1.getPlayer().getHP()); //Overlap top right of player
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 220, 550));
         g1.checkBossAttacks(200, 525, 235, 600);
-        assertEquals(-1, g1.getPlayer().getHP()); //Overlap bot right of player
+        assertEquals(Player.STARTING_HP - 4, g1.getPlayer().getHP()); //Overlap bot right of player
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 1000, 1000));
         g1.checkBossAttacks(975, 975, 1075, 1075); //Enclose boss attack in player
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 1000, 1000));
-        assertEquals(-2, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 5, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.checkBossAttacks(1010, 1010, 1030, 1030); //Enclose player in boss attack
-        assertEquals(-3, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 6, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 2000, 2000));
         g1.checkBossAttacks(1950, 2025, 2025, 2030); //Enclose left side of BA in player
-        assertEquals(-4, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 7, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 2000, 2000));
         g1.checkBossAttacks(2025, 2025, 2075, 2030); //Enclose right side of BA in player
-        assertEquals(-5, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 8, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 2000, 2000));
         g1.checkBossAttacks(2025, 1950, 2030, 2025); //Enclose bottom side of BA in player
-        assertEquals(-6, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 9, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 2000, 2000));
         g1.checkBossAttacks(2025, 2025, 2030, 2075); //Enclose top side of BA in player
-        assertEquals(-7, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 10, g1.getPlayer().getHP());
         resetPlayerIframes();
         g1.getBoss().addBossAttack(new BossAttack(50, 50, 3100, 3000));
         g1.checkBossAttacks(3000, 3000, 3050, 3050); //Fail first case
@@ -219,7 +221,7 @@ public class GameTest {
         g1.checkBossAttacks(4050, 4000, 4100, 4050); //Fail third case
         g1.getBoss().addBossAttack(new BossAttack(50, 25, 5000, 5000));
         g1.checkBossAttacks(5050, 5050, 5100, 5100); //Fail fourth case
-        assertEquals(-7, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 10, g1.getPlayer().getHP());
     }
 
     private void resetPlayerIframes() {
@@ -231,36 +233,36 @@ public class GameTest {
     @Test
     void testCheckCollisionWithBoss() {
         g1.checkCollisionWithBoss(300, 500, 375, 600, 200, 525, 235, 600);
-        assertEquals(3, g1.getPlayer().getHP()); //No hitbox overlap
+        assertEquals(Player.STARTING_HP, g1.getPlayer().getHP()); //No hitbox overlap
         g1.checkCollisionWithBoss(220, 450, 295, 550, 200, 525, 235, 600);
-        assertEquals(2, g1.getPlayer().getHP()); //Overlap bottom left of boss
+        assertEquals(Player.STARTING_HP - 1, g1.getPlayer().getHP()); //Overlap bottom left of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(220, 550, 295, 650, 200, 525, 235, 600);
-        assertEquals(1, g1.getPlayer().getHP()); //Overlap top left of boss
+        assertEquals(Player.STARTING_HP - 2, g1.getPlayer().getHP()); //Overlap top left of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(145, 550, 220, 650, 200, 525, 235, 600);
-        assertEquals(0, g1.getPlayer().getHP()); //Overlap top right of boss
+        assertEquals(Player.STARTING_HP - 3, g1.getPlayer().getHP()); //Overlap top right of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(145, 450, 220, 550, 200, 525, 235, 600);
-        assertEquals(-1, g1.getPlayer().getHP()); //Overlap bottom right of boss
+        assertEquals(Player.STARTING_HP - 4, g1.getPlayer().getHP()); //Overlap bottom right of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(1950, 2025, 2025, 2030, 2000, 2000, 2050, 2050);
-        assertEquals(-2, g1.getPlayer().getHP()); //Overlap left side of boss
+        assertEquals(Player.STARTING_HP - 5, g1.getPlayer().getHP()); //Overlap left side of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(1950, 2025, 2025, 2030, 2000, 2000, 2050, 2050);
-        assertEquals(-3, g1.getPlayer().getHP()); //Overlap right side of boss
+        assertEquals(Player.STARTING_HP - 6, g1.getPlayer().getHP()); //Overlap right side of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(1950, 2025, 2025, 2030, 2000, 2000, 2050, 2050);
-        assertEquals(-4, g1.getPlayer().getHP()); //Overlap bottom side of boss
+        assertEquals(Player.STARTING_HP - 7, g1.getPlayer().getHP()); //Overlap bottom side of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(1950, 2025, 2025, 2030, 2000, 2000, 2050, 2050);
-        assertEquals(-5, g1.getPlayer().getHP()); //Overlap top side of boss
+        assertEquals(Player.STARTING_HP - 8, g1.getPlayer().getHP()); //Overlap top side of boss
         resetPlayerIframes();
         g1.checkCollisionWithBoss(3100, 3000, 3150, 3050, 3000, 3000, 3050, 305); //Fail first case
         g1.checkCollisionWithBoss(6000, 6000, 6025, 6050, 6050, 6000, 6010, 6050); //Fail second case
         g1.checkCollisionWithBoss(4000, 4600, 4050, 4650, 4050, 4000, 4100, 4050); //Fail third case
         g1.checkCollisionWithBoss(5000, 5000, 5050, 5025, 5050, 5050, 5100, 5100); //Fail fourth case
-        assertEquals(-5, g1.getPlayer().getHP());
+        assertEquals(Player.STARTING_HP - 8, g1.getPlayer().getHP());
     }
 
     @Test
@@ -304,6 +306,13 @@ public class GameTest {
         assertTrue(g1.isGameOver());
         g2.getBoss().takeDamage(g2.getBoss().getHP());
         assertTrue(g2.isGameOver());
+    }
+
+    @Test
+    void testPause() {
+        assertFalse(g1.getPause());
+        g1.pause();
+        assertTrue(g1.getPause());
     }
 
     @Test

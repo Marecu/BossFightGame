@@ -23,7 +23,7 @@ class PlayerTest {
         p3 = new Player(689, 400);
         p4 = new Player(30, 0);
         p5 = new Player(400, 150);
-        p6 = new Player(400, Game.HEIGHT - p2.getHeight());
+        p6 = new Player(400, Game.HEIGHT - p2.getHeight() - Player.HITBOX_INSET);
         p7 = new Player(300, 510);
         p8 = new Player(Game.WIDTH - p2.getWidth() - 10, Game.HEIGHT - p2.getHeight() - 10);
     }
@@ -35,7 +35,7 @@ class PlayerTest {
         assertEquals(0, p1.getSpeedX());
         assertEquals(0, p1.getSpeedY());
         assertEquals(1, p1.getFacing());
-        assertEquals(3, p1.getHP());
+        assertEquals(Player.STARTING_HP, p1.getHP());
         assertEquals(0, p1.getTotalHits());
         assertTrue(p1.getPlayerAttacks().isEmpty());
         assertFalse(p1.getInvincible());
@@ -76,12 +76,12 @@ class PlayerTest {
         p5.move();
         assertEquals(100, p5.getY());
         p5.move();
-        assertEquals(75, p5.getY());
-        p8.accelerateY(7);
+        assertEquals(p5.getHeight(), p5.getY());
+        p8.accelerateY(6);
         p8.move();
-        assertEquals(Game.HEIGHT - p8.getHeight() - 3, p8.getY());
+        assertEquals(Game.HEIGHT - p8.getHeight() - 4, p8.getY());
         p8.move();
-        assertEquals(Game.HEIGHT - p8.getHeight(), p8.getY());
+        assertEquals(Game.HEIGHT - p8.getHeight() - Player.HITBOX_INSET, p8.getY());
     }
 
     @Test
@@ -133,18 +133,18 @@ class PlayerTest {
 
     @Test
     void testSpellAttack() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < Player.SPELL_REQUIRED_HITS; i++) {
             p1.incrementAttackCounter();
         }
         p1.spellAttack();
         resetAttacks(p1);
         assertEquals(1, p1.getPlayerAttacks().size());
         p1.moveL();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < (Player.SPELL_REQUIRED_HITS * 2) + 1; i++) {
             p1.incrementAttackCounter();
         }
         p1.spellAttack();
-        assertEquals(3, p1.getPlayerAttacks().size());
+        assertEquals(2, p1.getPlayerAttacks().size());
         resetAttacks(p1);
         p1.spellAttack();
         assertEquals(3, p1.getPlayerAttacks().size());
@@ -158,13 +158,17 @@ class PlayerTest {
             p1.incrementAttackCounter();
         }
         p1.spellAttack();
+        resetAttacks(p1);
+        p1.spellAttack();
         p1.moveProjectiles();
-        assertEquals(60, p1.getPlayerAttacks().get(0).getX());
-        assertEquals(60, p1.getPlayerAttacks().get(1).getX());
+        assertEquals(p1.getX() + p1.getWidth() + Player.MISSILE_SPEED, p1.getPlayerAttacks().get(0).getX());
+        assertEquals(p1.getX() + p1.getWidth() + Player.MISSILE_SPEED, p1.getPlayerAttacks().get(1).getX());
         p2.moveL();
         for (int i = 0; i < 6; i++) {
             p2.incrementAttackCounter();
         }
+        p2.spellAttack();
+        resetAttacks(p2);
         p2.spellAttack();
         p2.moveProjectiles();
         assertEquals(250, p2.getPlayerAttacks().get(0).getX());
@@ -197,13 +201,13 @@ class PlayerTest {
 
     @Test
     void testTakeDamage() {
-        assertEquals(3, p1.getHP());
+        assertEquals(Player.STARTING_HP, p1.getHP());
         p1.takeDamage(1);
-        assertEquals(2, p1.getHP());
+        assertEquals(Player.STARTING_HP - 1, p1.getHP());
         for (int i = 0; i <= Player.MAX_IFRAMES; i++) {
             p1.tickIFrames();
         }
-        p1.takeDamage(2);
+        p1.takeDamage(Player.STARTING_HP - 1);
         assertEquals(0, p1.getHP());
     }
 
