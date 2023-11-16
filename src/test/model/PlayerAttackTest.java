@@ -12,8 +12,8 @@ public class PlayerAttackTest {
 
     @BeforeEach
     void runBefore() {
-        pa1 = new PlayerAttack(20, 30, 100, 75, 1, false, 1);
-        pa2 = new PlayerAttack(20, 30, 100, 75, 1, true, 1);
+        pa1 = new PlayerAttack(20, 30, 100, 75, 1, false, 1, false);
+        pa2 = new PlayerAttack(20, 30, 100, 75, 1, true, 1, false);
     }
 
     @Test

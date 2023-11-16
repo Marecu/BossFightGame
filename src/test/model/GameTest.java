@@ -115,59 +115,50 @@ public class GameTest {
         assertEquals(Boss.STARTING_HP, g1.getBoss().getHP()); //No hitbox overlap
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X + 1, Game.HEIGHT - Player.PLAYER_HEIGHT - Boss.HEIGHT / 2, Game.PLAYER_START_POS_X + 1000, Game.HEIGHT - Player.PLAYER_HEIGHT / 2);
         assertEquals(Boss.STARTING_HP - 1, g1.getBoss().getHP()); //Overlap bottom left of boss
-        resetBossIframes();
+        resetAttackLockout();
+        g1.getPlayer().attack();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X + 1, Game.HEIGHT - Player.PLAYER_HEIGHT / 2, Game.PLAYER_START_POS_X + 1000, Game.HEIGHT + Boss.HEIGHT / 2);
         assertEquals(Boss.STARTING_HP - 2, g1.getBoss().getHP()); //Overlap top left of boss
-        resetBossIframes();
+        resetAttackLockout();
+        g1.getPlayer().attack();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Player.PLAYER_HEIGHT / 2, Game.PLAYER_START_POS_X + 50, Game.HEIGHT + Boss.HEIGHT / 2);
         assertEquals(Boss.STARTING_HP - 3, g1.getBoss().getHP()); //Overlap top right of boss
-        resetBossIframes();
+        resetAttackLockout();
+        g1.getPlayer().attack();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Player.PLAYER_HEIGHT - Boss.HEIGHT / 2, Game.PLAYER_START_POS_X + 50, Game.HEIGHT - Player.PLAYER_HEIGHT / 2);
         assertEquals(Boss.STARTING_HP - 4, g1.getBoss().getHP()); //Overlap bottom right of boss
-        resetBossIframes();
         resetAttackLockout();
         g1.getPlayer().attack();
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Player.PLAYER_HEIGHT / 2, Game.PLAYER_START_POS_X + 50, Game.HEIGHT + Boss.HEIGHT / 2);
         assertEquals(Boss.STARTING_HP - 5, g1.getBoss().getHP()); //Test multiple attacks
-        resetBossIframes();
         g1.getPlayer().incrementAttackCounter();
         assertEquals(6, g1.getPlayer().getTotalHits());
         g1.getPlayer().spellAttack();
         resetAttackLockout();
         g1.getPlayer().spellAttack();
-        assertEquals(4, g1.getPlayer().getPlayerAttacks().size());
+        assertEquals(7, g1.getPlayer().getPlayerAttacks().size());
         g1.checkPlayerAttacks(Game.PLAYER_START_POS_X - 25, Game.HEIGHT - Boss.HEIGHT, Game.PLAYER_START_POS_X + 50, Game.HEIGHT);
-        assertEquals(Boss.STARTING_HP - 6, g1.getBoss().getHP());
-        resetBossIframes();
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
-        g1.checkPlayerAttacks(1950, 2025, 2025, 2030); //Enclose left side of BA in player
-        assertEquals(Boss.STARTING_HP - 7, g1.getBoss().getHP());
-        resetBossIframes();
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
-        g1.checkPlayerAttacks(2025, 2025, 2075, 2030); //Enclose right side of BA in player
-        assertEquals(Boss.STARTING_HP - 8, g1.getBoss().getHP());
-        resetBossIframes();
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
-        g1.checkPlayerAttacks(2025, 1950, 2030, 2025); //Enclose bottom side of BA in player
         assertEquals(Boss.STARTING_HP - 9, g1.getBoss().getHP());
-        resetBossIframes();
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1));
-        g1.checkPlayerAttacks(2025, 2025, 2030, 2075); //Enclose top side of BA in player
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1, false));
+        g1.checkPlayerAttacks(1950, 2025, 2025, 2030); //Enclose left side of PA in boss
         assertEquals(Boss.STARTING_HP - 10, g1.getBoss().getHP());
-        resetBossIframes();
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 3100, 3000, 1, false, 1));
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1, false));
+        g1.checkPlayerAttacks(2025, 2025, 2075, 2030); //Enclose right side of PA in boss
+        assertEquals(Boss.STARTING_HP - 11, g1.getBoss().getHP());
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1, false));
+        g1.checkPlayerAttacks(2025, 1950, 2030, 2025); //Enclose bottom side of PA in boss
+        assertEquals(Boss.STARTING_HP - 12, g1.getBoss().getHP());
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 2000, 2000, 1, false, 1, false));
+        g1.checkPlayerAttacks(2025, 2025, 2030, 2075); //Enclose top side of PA in boss
+        assertEquals(Boss.STARTING_HP - 13, g1.getBoss().getHP());
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 3100, 3000, 1, false, 1, false));
         g1.checkPlayerAttacks(3000, 3000, 3050, 3050); //Fail first case
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 4000, 4600, 1, false, 1));
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 50, 4000, 4600, 1, false, 1, false));
         g1.checkPlayerAttacks(4050, 4000, 4100, 4050); //Fail third case
-        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 25, 5000, 5000, 1, false, 1));
+        g1.getPlayer().addPlayerAttack(new PlayerAttack(50, 25, 5000, 5000, 1, false, 1, false));
         g1.checkPlayerAttacks(5050, 5050, 5100, 5100); //Fail fourth case
-        assertEquals(Boss.STARTING_HP - 10, g1.getBoss().getHP());
-    }
-
-    private void resetBossIframes() {
-        for (int i = 0; i <= Boss.MAX_IFRAMES; i++) {
-            g1.getBoss().tickIFrames();
-        }
+        g1.checkPlayerAttacks(Game.PLAYER_START_POS_X + 1, Game.HEIGHT - Player.PLAYER_HEIGHT - Boss.HEIGHT / 2, Game.PLAYER_START_POS_X + 1000, Game.HEIGHT - Player.PLAYER_HEIGHT / 2);
+        assertEquals(Boss.STARTING_HP - 13, g1.getBoss().getHP());
     }
 
     @Test

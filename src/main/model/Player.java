@@ -162,7 +162,7 @@ public class Player {
                     ATTACK_HEIGHT,
                     posXOffset,
                     this.posY + (PLAYER_HEIGHT / 2) - ((double) ATTACK_HEIGHT / 2),
-                    MAX_LOCKOUT_TICKS / 2, false, this.facing);
+                    MAX_LOCKOUT_TICKS / 2, false, this.facing, false);
             playerAttacks.add(attack);
             this.canAttack = false;
             this.lockoutTicks = MAX_LOCKOUT_TICKS;
@@ -184,7 +184,7 @@ public class Player {
             if (totalHits >= SPELL_REQUIRED_HITS) {
                 PlayerAttack projectile = new PlayerAttack(MISSILE_WIDTH, MISSILE_HEIGHT, posXOffset, this.posY
                         + (PLAYER_HEIGHT / 2) - ((double) MISSILE_HEIGHT / 2),
-                        MISSILE_LIFESPAN, true, this.facing);
+                        MISSILE_LIFESPAN, true, this.facing, false);
                 playerAttacks.add(projectile);
                 totalHits -= SPELL_REQUIRED_HITS;
             }

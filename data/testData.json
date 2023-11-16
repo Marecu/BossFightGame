@@ -15,7 +15,8 @@
         "width": 20,
         "facing": 1,
         "moving": false,
-        "height": 30
+        "height": 30,
+        "hasHit": false
       },
       {
         "posX": 200,
@@ -24,7 +25,8 @@
         "width": 30,
         "facing": -1,
         "moving": true,
-        "height": 40
+        "height": 40,
+        "hasHit": false
       }
     ],
     "hasJump": false,

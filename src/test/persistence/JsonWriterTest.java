@@ -24,12 +24,12 @@ public class JsonWriterTest {
     @BeforeEach
     void runBefore() {
         pAttacks = new ArrayList<>();
-        pAttacks.add(new PlayerAttack(20, 30, 400, 500, 3, true, 1));
-        pAttacks.add(new PlayerAttack(30, 40, 200, 100, 6, true, -1));
+        pAttacks.add(new PlayerAttack(20, 30, 400, 500, 3, true, 1, false));
+        pAttacks.add(new PlayerAttack(30, 40, 200, 100, 6, true, -1, false));
         p = new Player(200, 300, 10, -20, -1, true, 2, 4, pAttacks, false, 0, true, 0, true, 0);
         bAttacks = new ArrayList<>();
         bAttacks.add(new BossAttack(50, 40, 200, 100));
-        b = new Boss1(400, 500, p, 20, -40, 1, 5, 40, true, true, bAttacks, 2, false, 0);
+        b = new Boss1(400, 500, p, 20, -40, 1, 5, 40, true, true, bAttacks, 2);
         g = new Game(p, b);
         jw = new JsonWriter("./data/testDataWrite.json");
         jw2 = new JsonWriter("./dsjfhsdgf/ffd.exe");

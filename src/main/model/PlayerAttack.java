@@ -13,9 +13,11 @@ public class PlayerAttack {
     private int lifespan;
     private boolean moving;
     private int facing;
+    private boolean hasHit;
 
     //EFFECTS: creates a new player attack with the specified position, dimensions, and other misc. properties
-    public PlayerAttack(int width, int height, double posX, double posY, int lifespan, boolean moving, int facing) {
+    public PlayerAttack(int width, int height, double posX, double posY, int lifespan, boolean moving, int facing,
+                        boolean hasHit) {
         this.width = width;
         this.height = height;
         this.posX = posX;
@@ -23,6 +25,7 @@ public class PlayerAttack {
         this.lifespan = lifespan;
         this.moving = moving;
         this.facing = facing;
+        this.hasHit = hasHit;
     }
 
     //EFFECTS: moves the position of the attack by amountX in the x direction and amountY in the y direction
@@ -34,8 +37,14 @@ public class PlayerAttack {
 
     //EFFECTS: reduces the lifespan of the player attack by 1
     //MODIFIES: this
-    void subtractLifespan() {
+    public void subtractLifespan() {
         this.lifespan -= 1;
+    }
+
+    //EFFECTS: makes the attack unable to hit again
+    //MODIFIES: this
+    public void registerHit() {
+        this.hasHit = true;
     }
 
     //EFFECTS: returns a JSON object containing all the information about the playerAttack
@@ -48,6 +57,7 @@ public class PlayerAttack {
         data.put("lifespan", this.lifespan);
         data.put("moving", this.moving);
         data.put("facing", this.facing);
+        data.put("hasHit", this.hasHit);
         return data;
     }
 
@@ -77,5 +87,9 @@ public class PlayerAttack {
 
     public int getFacing() {
         return this.facing;
+    }
+
+    public boolean getHasHit() {
+        return this.hasHit;
     }
 }

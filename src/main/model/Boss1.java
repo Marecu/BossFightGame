@@ -20,7 +20,7 @@ public class Boss1 extends Boss {
     //Creates a boss1 with the specified data
     public Boss1(double x, double y, Player p, int hp, double speedY, int facing, int attackTimer, int bonusMoveSpeed,
                  boolean currentlyAttacking, boolean movementOverride, List<BossAttack> bossAttacks,
-                 int lastUsedAttack, boolean invincible, int iframes) {
+                 int lastUsedAttack) {
         this.posX = x;
         this.posY = y;
         this.player = p;
@@ -33,8 +33,6 @@ public class Boss1 extends Boss {
         this.movementOverride = movementOverride;
         this.bossAttacks = bossAttacks;
         this.lastUsedAttack = lastUsedAttack;
-        this.invincible = invincible;
-        this.iframes = iframes;
     }
 
     //Creates a new boss1 at the specified coordinates that attacks the specified player p
@@ -50,8 +48,6 @@ public class Boss1 extends Boss {
         this.currentlyAttacking = false;
         this.movementOverride = false;
         this.bossAttacks = new ArrayList<>();
-        this.invincible = false;
-        this.iframes = 0;
     }
 
     @Override
@@ -129,8 +125,6 @@ public class Boss1 extends Boss {
         bossData.put("movementOverride", this.movementOverride);
         bossData.put("bossAttacks", parseAttacksJson());
         bossData.put("lastUsedAttack", this.lastUsedAttack);
-        bossData.put("invincible", this.invincible);
-        bossData.put("iframes", this.iframes);
         return bossData;
     }
 

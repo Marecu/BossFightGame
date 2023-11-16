@@ -128,26 +128,9 @@ public class BossTest {
     void testTakeDamage() {
         b1.takeDamage(1);
         assertEquals(Boss.STARTING_HP - 1, b1.getHP());
-        for (int i = 0; i <= Boss.MAX_IFRAMES; i++) {
-            b1.tickIFrames();
-        }
         b1.takeDamage(5);
         assertEquals(Boss.STARTING_HP - 1 - 5, b1.getHP());
         b1.takeDamage(10);
-        assertEquals(Boss.STARTING_HP - 1 - 5, b1.getHP());
-    }
-
-    @Test
-    void testTickIFrames() {
-        b1.takeDamage(1);
-        assertEquals(Boss.MAX_IFRAMES, b1.getIframes());
-        b1.tickIFrames();
-        assertEquals(Boss.MAX_IFRAMES - 1, b1.getIframes());
-        for (int i = 0; i < Boss.MAX_IFRAMES; i++) {
-            b1.tickIFrames();
-        }
-        assertEquals(0, b1.getIframes());
-        b1.tickIFrames();
-        assertEquals(0, b1.getIframes());
+        assertEquals(Boss.STARTING_HP - 1 - 5 - 10, b1.getHP());
     }
 }

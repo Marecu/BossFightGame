@@ -230,10 +230,10 @@ public class GamePanel extends JPanel {
         Boss b = game.getBoss();
         Sprite sprite = getBossFrame(b);
         if (b.getFacing() == 1) {
-            gr.drawImage(sprite.getSprite(), (int) b.getX(), (int) b.getY(), this);
+            gr.drawImage(sprite.getSprite(), (int) b.getX() - Boss.HORIZONTAL_HITBOX_INSET, (int) b.getY(), this);
         } else {
-            gr.drawImage(sprite.getSprite(), (int) b.getX() + b.getWidth(), (int) b.getY(),
-                    -1 * b.getWidth(), b.getHeight(), this);
+            gr.drawImage(sprite.getSprite(), (int) b.getX() + b.getWidth() + Boss.HORIZONTAL_HITBOX_INSET,
+                    (int) b.getY(), -1 * (b.getWidth() + (2 * Boss.HORIZONTAL_HITBOX_INSET)), b.getHeight(), this);
         }
         if (b.getAttackTimer() <= Boss.TELEGRAPH_DELAY) {
             drawBossTelegraph(gr, b);
@@ -273,12 +273,29 @@ public class GamePanel extends JPanel {
                 telegraph = this.bossCrystal3;
                 break;
         }
+        int frameOffset = getFrameOffset(b);
         if (b.getFacing() == 1) {
-            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 34, (int) b.getY() + 35, this);
+            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 34 - Boss.HORIZONTAL_HITBOX_INSET + frameOffset,
+                    (int) b.getY() + 36, this);
         } else {
-            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 34, (int) b.getY() + 35,
-                    -1 * telegraph.getSprite().getWidth(), telegraph.getSprite().getWidth(),
+            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 34 - Boss.HORIZONTAL_HITBOX_INSET - frameOffset,
+                    (int) b.getY() + 36, -1 * telegraph.getSprite().getWidth(), telegraph.getSprite().getWidth(),
                     this);
+        }
+    }
+
+    //EFFECTS: returns the offset in pixels to correctly place the boss' telegraph crystal
+    private int getFrameOffset(Boss b) {
+        int facingOffset = 0;
+        if (b.getFacing() == -1) {
+            facingOffset = -1;
+        }
+        if (getBossFrame(b) == this.bossNeutral) {
+            return 2 + facingOffset;
+        } else if (getBossFrame(b) == this.bossWalk2) {
+            return 1 + facingOffset;
+        } else {
+            return 0 + facingOffset;
         }
     }
 

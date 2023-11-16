@@ -48,7 +48,6 @@ public class Game implements Writable {
         this.player.moveProjectiles();
         this.player.tickIFrames();
         this.player.tickAttackLockouts();
-        this.boss.tickIFrames();
         this.boss.move(this.player);
         applyGravity();
         this.boss.handleAttackCycle();
@@ -121,11 +120,14 @@ public class Game implements Writable {
             double nextY = next.getY();
             double nextW = nextX + next.getWidth();
             double nextH = nextY + next.getHeight();
-            if ((nextX <= bossW) && (nextW >= bossX) && (nextY <= bossH) && (nextH >= bossY)) {
-                if (!next.getMoving() && !boss.getInvincible()) { //If the attack isn't a projectile
+            if ((nextX <= bossW) && (nextW >= bossX) && (nextY <= bossH) && (nextH >= bossY) && !next.getHasHit()) {
+                if (!next.getMoving()) { //If the attack isn't a projectile
                     player.incrementAttackCounter();
+                    boss.takeDamage(1);
+                } else {
+                    boss.takeDamage(2);
                 }
-                boss.takeDamage(1);
+                next.registerHit();
             }
         }
     }

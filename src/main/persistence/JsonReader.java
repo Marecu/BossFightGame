@@ -79,7 +79,8 @@ public class JsonReader {
             int lifespan = jo.getInt("lifespan");
             boolean moving = jo.getBoolean("moving");
             int facing = jo.getInt("facing");
-            playerAttacks.add(new PlayerAttack(width, height, posX, posY, lifespan, moving, facing));
+            boolean hasHit = jo.getBoolean("hasHit");
+            playerAttacks.add(new PlayerAttack(width, height, posX, posY, lifespan, moving, facing, hasHit));
         }
         return playerAttacks;
     }
@@ -97,11 +98,8 @@ public class JsonReader {
         boolean movementOverride = jo.getBoolean("movementOverride");
         List<BossAttack> bossAttacks = parseBossAttacks(jo.getJSONArray("bossAttacks"));
         int lastUsedAttack = jo.getInt("lastUsedAttack");
-        boolean invincible = jo.getBoolean("invincible");
-        int iframes = jo.getInt("iframes");
         return new Boss1(posX, posY, p, hp, speedY, facing, attackTimer, bonusMoveSpeed,
-                currentlyAttacking, movementOverride, bossAttacks, lastUsedAttack,
-                invincible, iframes);
+                currentlyAttacking, movementOverride, bossAttacks, lastUsedAttack);
     }
 
     //EFFECTS: returns a list of boss attacks parsed from the given JSON array

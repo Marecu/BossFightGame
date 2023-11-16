@@ -9,12 +9,12 @@ import java.util.List;
 
 public abstract class Boss {
 
-    public static final int STARTING_HP = 30;
-    public static final int WIDTH = 69;
+    public static final int HORIZONTAL_HITBOX_INSET = 3;
+    public static final int STARTING_HP = 40;
+    public static final int WIDTH = 69 - (2 * HORIZONTAL_HITBOX_INSET);
     public static final int HEIGHT = 116;
     public static final double BASE_MOVE_SPEED = 3;
     protected static final int ATTACK_INTERVAL = 500;
-    protected static final int MAX_IFRAMES = 25;
     public static final int TELEGRAPH_DELAY = 50;
 
     //posX and posY represent the coordinates of the top left of the boss' hitbox
@@ -30,8 +30,6 @@ public abstract class Boss {
     protected boolean currentlyAttacking;
     protected boolean movementOverride;
     protected List<BossAttack> bossAttacks;
-    protected boolean invincible;
-    protected int iframes;
 
     abstract void attack1(Player p);
 
@@ -132,21 +130,7 @@ public abstract class Boss {
     //MODIFIES: this
     //REQUIRES: amount > 0
     void takeDamage(int amount) {
-        if (!this.invincible) {
-            this.hp -= amount;
-            this.iframes = MAX_IFRAMES;
-            this.invincible = true;
-        }
-    }
-
-    //EFFECTS: reduces the boss' invincibility period after being hit
-    //MODIFIES: this
-    void tickIFrames() {
-        if (this.iframes > 0) {
-            this.iframes -= 1;
-        } else {
-            this.invincible = false;
-        }
+        this.hp -= amount;
     }
 
     public double getX() {
@@ -203,14 +187,6 @@ public abstract class Boss {
 
     public int getWidth() {
         return WIDTH;
-    }
-
-    public boolean getInvincible() {
-        return this.invincible;
-    }
-
-    public int getIframes() {
-        return this.iframes;
     }
 
     //Setters for testing purposes
