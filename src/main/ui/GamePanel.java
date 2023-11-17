@@ -39,9 +39,9 @@ public class GamePanel extends JPanel {
     private Sprite bossWalk1;
     private Sprite bossWalk2;
     private Sprite bossNeutral;
-    private Sprite bossCrystal1;
-    private Sprite bossCrystal2;
-    private Sprite bossCrystal3;
+    private Sprite bossVisor1;
+    private Sprite bossVisor2;
+    private Sprite bossVisor3;
     private Sprite background;
     private Sprite ground;
 
@@ -65,7 +65,8 @@ public class GamePanel extends JPanel {
     //EFFECTS: returns the file path where the spreadsheet is located
     private String getSpriteSheetPath() {
         String separator = System.getProperty("file.separator");
-        return System.getProperty("user.dir") + separator + "data" + separator + SPRITE_SHEET_FILE;
+        //return SPRITE_SHEET_FILE;
+        return "." + separator + "data" + separator + SPRITE_SHEET_FILE;
     }
 
     //EFFECTS: loads in the full sprite sheet from the file and loads the individual sprites
@@ -101,9 +102,9 @@ public class GamePanel extends JPanel {
         this.bossWalk1 = new Sprite(spriteSheet.splice(70, 396, 69, 116));
         this.bossWalk2 = new Sprite(spriteSheet.splice(0, 396, 69, 116));
         this.bossNeutral = new Sprite(spriteSheet.splice(140, 396, 69, 116));
-        this.bossCrystal1 = new Sprite(spriteSheet.splice(86, 81, 4, 4));
-        this.bossCrystal2 = new Sprite(spriteSheet.splice(81, 81, 4, 4));
-        this.bossCrystal3 = new Sprite(spriteSheet.splice(76, 81, 4, 4));
+        this.bossVisor1 = new Sprite(spriteSheet.splice(93, 81, 16, 4));
+        this.bossVisor2 = new Sprite(spriteSheet.splice(110, 81, 16, 4));
+        this.bossVisor3 = new Sprite(spriteSheet.splice(76, 81, 16, 4));
     }
 
     //EFFECTS: Loads all assets related to the GUI
@@ -170,12 +171,12 @@ public class GamePanel extends JPanel {
         Player p = game.getPlayer();
         Sprite sprite = getPlayerFrame(p);
         if (p.getFacing() == 1) {
-            gr.drawImage(sprite.getSprite(), (int) p.getX() - Player.HITBOX_INSET,
-                    (int) p.getY() - Player.HITBOX_INSET, this);
+            gr.drawImage(sprite.getSprite(), (int) p.getX() - Player.HORIZONAL_HITBOX_INSET,
+                    (int) p.getY() - Player.VERTICAL_HITBOX_INSET, this);
         } else {
-            gr.drawImage(sprite.getSprite(), (int) p.getX() + (int) p.getWidth() + Player.HITBOX_INSET,
-                    (int) p.getY(), -1 * ((int) p.getWidth() + (2 * Player.HITBOX_INSET)),
-                    (int) p.getHeight() + (2 * Player.HITBOX_INSET), this);
+            gr.drawImage(sprite.getSprite(), (int) p.getX() + (int) p.getWidth() + Player.HORIZONAL_HITBOX_INSET,
+                    (int) p.getY(), -1 * ((int) p.getWidth() + (2 * Player.HORIZONAL_HITBOX_INSET)),
+                    (int) p.getHeight() + (2 * Player.VERTICAL_HITBOX_INSET), this);
         }
     }
 
@@ -264,22 +265,22 @@ public class GamePanel extends JPanel {
         Sprite telegraph;
         switch (b.getLastUsedAttack()) {
             case 1:
-                telegraph = this.bossCrystal1;
+                telegraph = this.bossVisor1;
                 break;
             case 2:
-                telegraph = this.bossCrystal2;
+                telegraph = this.bossVisor2;
                 break;
             default:
-                telegraph = this.bossCrystal3;
+                telegraph = this.bossVisor3;
                 break;
         }
         int frameOffset = getFrameOffset(b);
         if (b.getFacing() == 1) {
-            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 34 - Boss.HORIZONTAL_HITBOX_INSET + frameOffset,
-                    (int) b.getY() + 36, this);
+            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 24 - Boss.HORIZONTAL_HITBOX_INSET + frameOffset,
+                    (int) b.getY() + 11, this);
         } else {
-            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 34 - Boss.HORIZONTAL_HITBOX_INSET - frameOffset,
-                    (int) b.getY() + 36, -1 * telegraph.getSprite().getWidth(), telegraph.getSprite().getWidth(),
+            gr.drawImage(telegraph.getSprite(), (int) b.getX() + 24 - Boss.HORIZONTAL_HITBOX_INSET - frameOffset,
+                    (int) b.getY() + 11, -1 * telegraph.getSprite().getWidth(), telegraph.getSprite().getHeight(),
                     this);
         }
     }
@@ -288,7 +289,7 @@ public class GamePanel extends JPanel {
     private int getFrameOffset(Boss b) {
         int facingOffset = 0;
         if (b.getFacing() == -1) {
-            facingOffset = -1;
+            facingOffset = -22;
         }
         if (getBossFrame(b) == this.bossNeutral) {
             return 2 + facingOffset;

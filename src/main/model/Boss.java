@@ -15,7 +15,7 @@ public abstract class Boss {
     public static final int HEIGHT = 116;
     public static final double BASE_MOVE_SPEED = 3;
     protected static final int ATTACK_INTERVAL = 500;
-    public static final int TELEGRAPH_DELAY = 50;
+    public static final int TELEGRAPH_DELAY = 75;
 
     //posX and posY represent the coordinates of the top left of the boss' hitbox
     protected double posX;

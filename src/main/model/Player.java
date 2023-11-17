@@ -10,9 +10,10 @@ import java.util.ArrayList;
 
 public class Player {
 
-    public static final int HITBOX_INSET = 3;
-    public static final double PLAYER_HEIGHT = 69 - 2 * HITBOX_INSET;
-    public static final double PLAYER_WIDTH = 35 - 2 * HITBOX_INSET;
+    public static final int HORIZONAL_HITBOX_INSET = 3;
+    public static final int VERTICAL_HITBOX_INSET = 5;
+    public static final double PLAYER_HEIGHT = 69 - 2 * VERTICAL_HITBOX_INSET;
+    public static final double PLAYER_WIDTH = 35 - 2 * HORIZONAL_HITBOX_INSET;
     public static final double JUMP_STRENGTH = -10;
     public static final double ACCEL_STRENGTH = 0.1;
     public static final int SPELL_REQUIRED_HITS = 3;
@@ -25,6 +26,7 @@ public class Player {
     public static final int MAX_IFRAMES = 50;
     public static final int MAX_LOCKOUT_TICKS = 25;
     public static final int STARTING_HP = 3;
+    public static final double TURN_AROUND_SPEED = 0.5;
 
     //posX and posY represent the coordinates of the top left of the player's hitbox
     private double posX;
@@ -112,8 +114,8 @@ public class Player {
 
         if (this.posY + this.speedY <= PLAYER_HEIGHT) {
             this.posY = PLAYER_HEIGHT;
-        } else if (this.posY + this.speedY >= Game.HEIGHT - PLAYER_HEIGHT - HITBOX_INSET) {
-            this.posY = Game.HEIGHT - PLAYER_HEIGHT - HITBOX_INSET;
+        } else if (this.posY + this.speedY >= Game.HEIGHT - PLAYER_HEIGHT - HORIZONAL_HITBOX_INSET) {
+            this.posY = Game.HEIGHT - PLAYER_HEIGHT - HORIZONAL_HITBOX_INSET;
         } else {
             this.posY += speedY;
         }
@@ -123,7 +125,7 @@ public class Player {
     //MODIFIES: this
     void moveL() {
         if (this.speedX > 0) {
-            this.speedX = 0;
+            this.speedX = -1 * TURN_AROUND_SPEED;
         }
         this.facing = -1;
         accelerateX(ACCEL_STRENGTH * this.facing);
@@ -133,7 +135,7 @@ public class Player {
     //MODIFIES: this
     void moveR() {
         if (this.speedX < 0) {
-            this.speedX = 0;
+            this.speedX = TURN_AROUND_SPEED;
         }
         this.facing = 1;
         accelerateX(ACCEL_STRENGTH);
@@ -226,7 +228,7 @@ public class Player {
 
     //EFFECTS: returns whether or not the player's hitbox is touching the ground
     public boolean onGround() {
-        return this.posY >= Game.HEIGHT - PLAYER_HEIGHT - HITBOX_INSET;
+        return this.posY >= Game.HEIGHT - PLAYER_HEIGHT - VERTICAL_HITBOX_INSET;
     }
 
     //EFFECTS: reduces the player's hp by amount if the player has not been hit recently

@@ -46,9 +46,9 @@ public class BossFight extends JFrame {
         setMinimumSize(WINDOW);
         setMaximumSize(WINDOW);
         centreScreen();
-        setVisible(true);
         addStartPanel();
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        setVisible(true);
     }
 
     public static void main(String[] args) {
