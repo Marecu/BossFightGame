@@ -87,7 +87,9 @@ class PlayerTest {
     @Test
     void testMoveL() {
         p2.moveL();
-        assertEquals(-1 * Player.ACCEL_STRENGTH, p2.getSpeedX());
+        assertEquals(-1 * (Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED), p2.getSpeedX());
+        p2.moveL();
+        assertEquals(-1 * (2 * Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED), p2.getSpeedX());
         p2.accelerateX(p2.getSpeedX() * -2);
         p2.moveL();
         assertEquals(-1 * (Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED), p2.getSpeedX());
@@ -96,7 +98,9 @@ class PlayerTest {
     @Test
     void testMoveR() {
         p2.moveR();
-        assertEquals(Player.ACCEL_STRENGTH, p2.getSpeedX());
+        assertEquals(Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED, p2.getSpeedX());
+        p2.moveR();
+        assertEquals(2 * Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED, p2.getSpeedX());
         p2.accelerateX(p2.getSpeedX() * -2);
         p2.moveR();
         assertEquals(Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED, p2.getSpeedX());
@@ -220,5 +224,27 @@ class PlayerTest {
         assertEquals(1, p1.getTotalHits());
         p1.incrementAttackCounter();
         assertEquals(2, p1.getTotalHits());
+    }
+
+    @Test
+    void testApplyFriction() {
+        p6.accelerateX(10);
+        assertEquals(10, p6.getSpeedX());
+        p6.applyFriction();
+        assertEquals(10 - Player.FRICTION_STRENGTH, p6.getSpeedX());
+        p6.moveL();
+        p6.applyFriction();
+        assertEquals((-1 * (Player.TURN_AROUND_SPEED + Player.ACCEL_STRENGTH)) + Player.FRICTION_STRENGTH, p6.getSpeedX());
+        p2.accelerateX(-10);
+        assertEquals(-10, p2.getSpeedX());
+        assertEquals(1, p1.getFacing());
+        p2.applyFriction();
+        assertEquals(0, p2.getSpeedX());
+        p2.moveL();
+        assertEquals(-1 * (Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED), p2.getSpeedX());
+        p2.accelerateX(1000);
+        assertEquals(1000 - Player.TURN_AROUND_SPEED - Player.ACCEL_STRENGTH, p2.getSpeedX());
+        p2.applyFriction();
+        assertEquals(0, p2.getSpeedX());
     }
 }

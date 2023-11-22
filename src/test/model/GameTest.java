@@ -44,7 +44,7 @@ public class GameTest {
     @Test
     void testHandleUserInput() {
         g1.handleUserInput(KeyEvent.VK_A);
-        assertEquals(-1 * Player.ACCEL_STRENGTH, g1.getPlayer().getSpeedX());
+        assertEquals(-1 * (Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED), g1.getPlayer().getSpeedX());
         g1.handleUserInput(KeyEvent.VK_D);
         assertEquals(Player.ACCEL_STRENGTH + Player.TURN_AROUND_SPEED, g1.getPlayer().getSpeedX());
         g1.handleUserInput(KeyEvent.VK_SPACE);

@@ -14,13 +14,16 @@ public class SpriteSheet {
 
     //Creates a new sprite sheet from the file at the given file path
     public SpriteSheet(String filePath) throws IOException {
-//        InputStream in = getClass().getResourceAsStream(filePath);
-//        if (in == null) {
-//            throw new IOException("Unable to locate file");
-//        }
-//        this.sheet = ImageIO.read(in);
-        File file = new File(filePath);
-        this.sheet = ImageIO.read(file);
+        if (BossFight.JAR_COMPILE) {
+            InputStream in = getClass().getResourceAsStream(filePath);
+            if (in == null) {
+                throw new IOException("Unable to locate file");
+            }
+            this.sheet = ImageIO.read(in);
+        } else {
+            File file = new File(filePath);
+            this.sheet = ImageIO.read(file);
+        }
         if (this.sheet == null) {
             throw new IOException("Unable to read file.");
         }

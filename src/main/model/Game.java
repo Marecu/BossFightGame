@@ -45,6 +45,7 @@ public class Game implements Writable {
             handleUserInput(next);
         }
         this.player.move();
+        this.player.applyFriction();
         this.player.moveProjectiles();
         this.player.tickIFrames();
         this.player.tickAttackLockouts();

@@ -16,7 +16,7 @@ import static ui.BossFight.WINDOW;
 public class GamePanel extends JPanel {
 
     private static final String SPRITE_SHEET_FILE = "spriteSheet.png";
-    private static final int ANIMATION_FREQUENCY = 25;
+    private static final int ANIMATION_FREQUENCY = 12;
     private static final int ANIMATION_FRAMES = 4;
 
     private JLabel manaLabel;
@@ -65,8 +65,11 @@ public class GamePanel extends JPanel {
     //EFFECTS: returns the file path where the spreadsheet is located
     private String getSpriteSheetPath() {
         String separator = System.getProperty("file.separator");
-        //return SPRITE_SHEET_FILE;
-        return "." + separator + "data" + separator + SPRITE_SHEET_FILE;
+        if (BossFight.JAR_COMPILE) {
+            return SPRITE_SHEET_FILE;
+        } else {
+            return "." + separator + "data" + separator + SPRITE_SHEET_FILE;
+        }
     }
 
     //EFFECTS: loads in the full sprite sheet from the file and loads the individual sprites
@@ -141,12 +144,11 @@ public class GamePanel extends JPanel {
         drawBoss(gr);
         drawBossAttacks(gr);
         drawGUI(gr);
-        tickAnimation();
     }
 
     //EFFECTS: advances the timer the animations run on
     //MODIFIES: this
-    private void tickAnimation() {
+    public void tickAnimation() {
         if (this.animationCounter == ANIMATION_FREQUENCY) {
             this.animationCounter = 0;
             updateAnimation();

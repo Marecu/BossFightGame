@@ -15,7 +15,8 @@ public class Player {
     public static final double PLAYER_HEIGHT = 69 - 2 * VERTICAL_HITBOX_INSET;
     public static final double PLAYER_WIDTH = 35 - 2 * HORIZONAL_HITBOX_INSET;
     public static final double JUMP_STRENGTH = -10;
-    public static final double ACCEL_STRENGTH = 0.1;
+    public static final double FRICTION_STRENGTH = 0.15;
+    public static final double ACCEL_STRENGTH = 0.1 + FRICTION_STRENGTH;
     public static final int SPELL_REQUIRED_HITS = 3;
     public static final int ATTACK_WIDTH = 75;
     public static final int ATTACK_HEIGHT = 20;
@@ -124,7 +125,7 @@ public class Player {
     //EFFECTS: changes speedX by ACCEL_STRENGTH (facing left)
     //MODIFIES: this
     void moveL() {
-        if (this.speedX > 0) {
+        if (this.speedX >= 0) {
             this.speedX = -1 * TURN_AROUND_SPEED;
         }
         this.facing = -1;
@@ -134,11 +135,28 @@ public class Player {
     //EFFECTS: changes speedX by ACCEL_STRENGTH (facing right)
     //MODIFIES: this
     void moveR() {
-        if (this.speedX < 0) {
+        if (this.speedX <= 0) {
             this.speedX = TURN_AROUND_SPEED;
         }
         this.facing = 1;
         accelerateX(ACCEL_STRENGTH);
+    }
+
+    //EFFECTS: slows the player down if they are not on the ground
+    //MODIFIES: this
+    void applyFriction() {
+        if (this.facing == 1) {
+            accelerateX(FRICTION_STRENGTH * -1);
+            if (this.speedX < 0) {
+                accelerateX(this.speedX * -1);
+            }
+        }
+        if (this.facing == -1) {
+            accelerateX(FRICTION_STRENGTH);
+            if (this.speedX > 0) {
+                accelerateX(this.speedX * -1);
+            }
+        }
     }
 
     //EFFECTS: increases speedY by JUMP_STRENGTH if the player is able to use their jump

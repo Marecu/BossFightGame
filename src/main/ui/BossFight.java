@@ -24,6 +24,7 @@ public class BossFight extends JFrame {
     public static final int FLOOR_HEIGHT = 75;
     public static final Dimension WINDOW = new Dimension(Game.WIDTH, Game.HEIGHT + FLOOR_HEIGHT);
     private static final int TIME_STEP = 10;
+    public static final boolean JAR_COMPILE = false;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private Game game;
@@ -52,6 +53,9 @@ public class BossFight extends JFrame {
     }
 
     public static void main(String[] args) {
+        System.setProperty("sun.java2d.opengl", "false");
+        System.setProperty("sun.java.d3d", "false");
+        System.setProperty("sun.java.noddraw", "true");
         new BossFight();
     }
 
@@ -84,6 +88,7 @@ public class BossFight extends JFrame {
                     if (game.isGameOver()) {
                         handleGameOver();
                     }
+                    gp.tickAnimation();
                     gp.repaint();
                 }
 
