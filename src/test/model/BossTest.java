@@ -70,9 +70,9 @@ public class BossTest {
 
     @Test
     void testOnGround() {
-        b1.setY(Game.HEIGHT - b1.getHeight() - 1);
+        b1.setY(Game.HEIGHT - b1.getHeight() - Boss.VERTICAL_HITBOX_INSET - 1);
         assertFalse(b1.onGround());
-        b1.setY(Game.HEIGHT - b1.getHeight());
+        b1.setY(Game.HEIGHT - b1.getHeight() - Boss.VERTICAL_HITBOX_INSET);
         assertTrue(b1.onGround());
     }
 

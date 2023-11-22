@@ -53,9 +53,7 @@ public class BossFight extends JFrame {
     }
 
     public static void main(String[] args) {
-        System.setProperty("sun.java2d.opengl", "false");
-        System.setProperty("sun.java.d3d", "false");
-        System.setProperty("sun.java.noddraw", "true");
+        System.setProperty("sun.java2d.opengl", "true");
         new BossFight();
     }
 

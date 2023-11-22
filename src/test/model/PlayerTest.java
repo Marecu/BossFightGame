@@ -21,9 +21,9 @@ class PlayerTest {
         p1 = new Player(5, 10);
         p2 = new Player( 300, 200);
         p3 = new Player(689, 400);
-        p4 = new Player(30, 0);
+        p4 = new Player(5, 0);
         p5 = new Player(400, 150);
-        p6 = new Player(400, Game.HEIGHT - p2.getHeight() - Player.HORIZONAL_HITBOX_INSET);
+        p6 = new Player(400, Game.HEIGHT - p2.getHeight() - Player.HORIZONTAL_HITBOX_INSET);
         p7 = new Player(300, 510);
         p8 = new Player(Game.WIDTH - p2.getWidth() - 10, Game.HEIGHT - p2.getHeight() - 10);
     }
@@ -69,7 +69,7 @@ class PlayerTest {
         assertEquals(Game.WIDTH - p8.getWidth() - 3, p8.getX());
         p8.move();
         assertEquals(Game.WIDTH - p8.getWidth(), p8.getX());
-        p4.accelerateX(-50);
+        p4.accelerateX(-7);
         p4.move();
         assertEquals(0, p4.getX());
         p5.accelerateY(-50);
@@ -81,7 +81,13 @@ class PlayerTest {
         p8.move();
         assertEquals(Game.HEIGHT - p8.getHeight() - 4, p8.getY());
         p8.move();
-        assertEquals(Game.HEIGHT - p8.getHeight() - Player.HORIZONAL_HITBOX_INSET, p8.getY());
+        assertEquals(Game.HEIGHT - p8.getHeight() - Player.HORIZONTAL_HITBOX_INSET, p8.getY());
+        p2.accelerateX(100);
+        p2.move();
+        assertEquals(Player.MAX_SPEED, p2.getSpeedX());
+        p2.accelerateX(-200);
+        p2.move();
+        assertEquals(-1 * Player.MAX_SPEED, p2.getSpeedX());
     }
 
     @Test

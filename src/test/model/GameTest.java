@@ -32,11 +32,11 @@ public class GameTest {
     void testUpdate() {
         Set keys = new HashSet<>();
         keys.add(KeyEvent.VK_ENTER);
-        g1.getPlayer().accelerateX(30);
+        g1.getPlayer().accelerateX(5);
         g1.getPlayer().accelerateY(-20);
         g1.getBoss().accelerateY(-30);
         g1.update(keys);
-        assertEquals(Game.PLAYER_START_POS_X + 30, g1.getPlayer().getX());
+        assertEquals(Game.PLAYER_START_POS_X + 5, g1.getPlayer().getX());
         assertEquals(Game.PLAYER_START_POS_Y - 20, g1.getPlayer().getY());
         assertEquals(Game.BOSS_START_POS_Y - 30, g1.getBoss().getY());
     }

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class Player {
 
-    public static final int HORIZONAL_HITBOX_INSET = 3;
-    public static final int VERTICAL_HITBOX_INSET = 5;
+    public static final int HORIZONTAL_HITBOX_INSET = 3;
+    public static final int VERTICAL_HITBOX_INSET = 8;
     public static final double PLAYER_HEIGHT = 69 - 2 * VERTICAL_HITBOX_INSET;
-    public static final double PLAYER_WIDTH = 35 - 2 * HORIZONAL_HITBOX_INSET;
+    public static final double PLAYER_WIDTH = 35 - 2 * HORIZONTAL_HITBOX_INSET;
     public static final double JUMP_STRENGTH = -10;
-    public static final double FRICTION_STRENGTH = 0.15;
-    public static final double ACCEL_STRENGTH = 0.1 + FRICTION_STRENGTH;
+    public static final double FRICTION_STRENGTH = 0.4;
+    public static final double ACCEL_STRENGTH = 0.15 + FRICTION_STRENGTH;
     public static final int SPELL_REQUIRED_HITS = 3;
     public static final int ATTACK_WIDTH = 75;
     public static final int ATTACK_HEIGHT = 20;
@@ -27,7 +27,8 @@ public class Player {
     public static final int MAX_IFRAMES = 50;
     public static final int MAX_LOCKOUT_TICKS = 25;
     public static final int STARTING_HP = 3;
-    public static final double TURN_AROUND_SPEED = 0.5;
+    public static final double TURN_AROUND_SPEED = 1;
+    public static final double MAX_SPEED = 10;
 
     //posX and posY represent the coordinates of the top left of the player's hitbox
     private double posX;
@@ -102,6 +103,11 @@ public class Player {
     //         by speedY
     //MODIFIES: this
     void move() {
+        if (speedX >= MAX_SPEED) {
+            this.speedX = MAX_SPEED;
+        } else if (speedX <= -1 * MAX_SPEED) {
+            this.speedX = -1 * MAX_SPEED;
+        }
         if ((this.posX + speedX < (Game.WIDTH - PLAYER_WIDTH)) && (this.posX + speedX > 0)) {
             this.posX += speedX;
         } else {
@@ -115,8 +121,8 @@ public class Player {
 
         if (this.posY + this.speedY <= PLAYER_HEIGHT) {
             this.posY = PLAYER_HEIGHT;
-        } else if (this.posY + this.speedY >= Game.HEIGHT - PLAYER_HEIGHT - HORIZONAL_HITBOX_INSET) {
-            this.posY = Game.HEIGHT - PLAYER_HEIGHT - HORIZONAL_HITBOX_INSET;
+        } else if (this.posY + this.speedY >= Game.HEIGHT - PLAYER_HEIGHT - HORIZONTAL_HITBOX_INSET) {
+            this.posY = Game.HEIGHT - PLAYER_HEIGHT - HORIZONTAL_HITBOX_INSET;
         } else {
             this.posY += speedY;
         }

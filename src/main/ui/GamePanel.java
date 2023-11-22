@@ -146,6 +146,15 @@ public class GamePanel extends JPanel {
         drawGUI(gr);
     }
 
+    //EFFECTS: for debugging purposes - draws the hitboxes of the player and the boss
+    private void drawHitboxes(Graphics gr) {
+        Player p = game.getPlayer();
+        Boss b = game.getBoss();
+        gr.setColor(new Color(0, 0, 255));
+        gr.drawRect((int) p.getX(), (int) p.getY(), (int) p.getWidth(), (int) p.getHeight());
+        gr.drawRect((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
+    }
+
     //EFFECTS: advances the timer the animations run on
     //MODIFIES: this
     public void tickAnimation() {
@@ -173,11 +182,12 @@ public class GamePanel extends JPanel {
         Player p = game.getPlayer();
         Sprite sprite = getPlayerFrame(p);
         if (p.getFacing() == 1) {
-            gr.drawImage(sprite.getSprite(), (int) p.getX() - Player.HORIZONAL_HITBOX_INSET,
+            gr.drawImage(sprite.getSprite(), (int) p.getX() - Player.HORIZONTAL_HITBOX_INSET,
                     (int) p.getY() - Player.VERTICAL_HITBOX_INSET, this);
         } else {
-            gr.drawImage(sprite.getSprite(), (int) p.getX() + (int) p.getWidth() + Player.HORIZONAL_HITBOX_INSET,
-                    (int) p.getY(), -1 * ((int) p.getWidth() + (2 * Player.HORIZONAL_HITBOX_INSET)),
+            gr.drawImage(sprite.getSprite(), (int) p.getX() + (int) p.getWidth() + Player.HORIZONTAL_HITBOX_INSET,
+                    (int) p.getY() - Player.VERTICAL_HITBOX_INSET,
+                    -1 * ((int) p.getWidth() + (2 * Player.HORIZONTAL_HITBOX_INSET)),
                     (int) p.getHeight() + (2 * Player.VERTICAL_HITBOX_INSET), this);
         }
     }
@@ -233,10 +243,13 @@ public class GamePanel extends JPanel {
         Boss b = game.getBoss();
         Sprite sprite = getBossFrame(b);
         if (b.getFacing() == 1) {
-            gr.drawImage(sprite.getSprite(), (int) b.getX() - Boss.HORIZONTAL_HITBOX_INSET, (int) b.getY(), this);
+            gr.drawImage(sprite.getSprite(), (int) b.getX() - Boss.HORIZONTAL_HITBOX_INSET,
+                    (int) b.getY() - Boss.VERTICAL_HITBOX_INSET, this);
         } else {
             gr.drawImage(sprite.getSprite(), (int) b.getX() + b.getWidth() + Boss.HORIZONTAL_HITBOX_INSET,
-                    (int) b.getY(), -1 * (b.getWidth() + (2 * Boss.HORIZONTAL_HITBOX_INSET)), b.getHeight(), this);
+                    (int) b.getY() - Boss.VERTICAL_HITBOX_INSET,
+                    -1 * (b.getWidth() + (2 * Boss.HORIZONTAL_HITBOX_INSET)),
+                    b.getHeight()  + 2 * Boss.VERTICAL_HITBOX_INSET, this);
         }
         if (b.getAttackTimer() <= Boss.TELEGRAPH_DELAY) {
             drawBossTelegraph(gr, b);
@@ -279,11 +292,11 @@ public class GamePanel extends JPanel {
         int frameOffset = getFrameOffset(b);
         if (b.getFacing() == 1) {
             gr.drawImage(telegraph.getSprite(), (int) b.getX() + 24 - Boss.HORIZONTAL_HITBOX_INSET + frameOffset,
-                    (int) b.getY() + 11, this);
+                    (int) b.getY() + 11 - Boss.VERTICAL_HITBOX_INSET, this);
         } else {
             gr.drawImage(telegraph.getSprite(), (int) b.getX() + 24 - Boss.HORIZONTAL_HITBOX_INSET - frameOffset,
-                    (int) b.getY() + 11, -1 * telegraph.getSprite().getWidth(), telegraph.getSprite().getHeight(),
-                    this);
+                    (int) b.getY() + 11 - Boss.VERTICAL_HITBOX_INSET, -1 * telegraph.getSprite().getWidth(),
+                    telegraph.getSprite().getHeight(), this);
         }
     }
 

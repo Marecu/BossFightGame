@@ -9,10 +9,11 @@ import java.util.List;
 
 public abstract class Boss {
 
-    public static final int HORIZONTAL_HITBOX_INSET = 3;
+    public static final int HORIZONTAL_HITBOX_INSET = 5;
+    public static final int VERTICAL_HITBOX_INSET = 5;
     public static final int STARTING_HP = 40;
     public static final int WIDTH = 69 - (2 * HORIZONTAL_HITBOX_INSET);
-    public static final int HEIGHT = 116;
+    public static final int HEIGHT = 116 - (2 * VERTICAL_HITBOX_INSET);
     public static final double BASE_MOVE_SPEED = 3;
     protected static final int ATTACK_INTERVAL = 500;
     public static final int TELEGRAPH_DELAY = 75;
@@ -85,7 +86,7 @@ public abstract class Boss {
 
     //EFFECTS: returns whether the boss' hitbox is on the ground
     public boolean onGround() {
-        return this.posY >= Game.HEIGHT - HEIGHT;
+        return this.posY >= Game.HEIGHT - HEIGHT - VERTICAL_HITBOX_INSET;
     }
 
     //EFFECTS: issues an attack and resets the attack timer if the timer is 0, otherwise decrements the timer by 1
