@@ -21,7 +21,7 @@ public class GamePanel extends JPanel {
 
     private JLabel manaLabel;
 
-    private Game game;
+    private final Game game;
     private SpriteSheet spriteSheet;
     private Sprite playerHP;
     private Sprite manaBarFrame;
@@ -152,7 +152,7 @@ public class GamePanel extends JPanel {
         Boss b = game.getBoss();
         gr.setColor(new Color(0, 0, 255));
         gr.drawRect((int) p.getX(), (int) p.getY(), (int) p.getWidth(), (int) p.getHeight());
-        gr.drawRect((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
+        gr.drawRect((int) b.getX(), (int) b.getY(), b.getWidth(), b.getHeight());
     }
 
     //EFFECTS: advances the timer the animations run on
@@ -311,7 +311,7 @@ public class GamePanel extends JPanel {
         } else if (getBossFrame(b) == this.bossWalk2) {
             return 1 + facingOffset;
         } else {
-            return 0 + facingOffset;
+            return facingOffset;
         }
     }
 

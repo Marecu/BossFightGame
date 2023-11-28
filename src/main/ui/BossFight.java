@@ -1,6 +1,8 @@
 package ui;
 
 import model.BossAttack;
+import model.Event;
+import model.EventLog;
 import model.Game;
 import model.PlayerAttack;
 import persistence.JsonReader;
@@ -16,6 +18,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 import static java.lang.System.exit;
+import static java.lang.System.setOut;
 
 //Represents the whole application - a game where a player fights a boss
 public class BossFight extends JFrame {
@@ -125,7 +128,7 @@ public class BossFight extends JFrame {
         // EFFECTS: Kills the program when the window is closed
         // MODIFIES: this
         public void windowClosing(WindowEvent e) {
-            exit(0);
+            close();
         }
     }
 
@@ -153,7 +156,7 @@ public class BossFight extends JFrame {
     }
 
     //EFFECTS: logs the game status (for debugging purposes)
-    void printGameStatus(Game g) {
+    private void printGameStatus(Game g) {
         System.out.println("You are located at: [" + g.getPlayer().getX() + ", " +  g.getPlayer().getY() + "]");
         System.out.println("Your speed is: [" + g.getPlayer().getSpeedX() + ", " + g.getPlayer().getSpeedY() + "]");
         System.out.println("Your HP is: " + g.getPlayer().getHP());
@@ -175,7 +178,7 @@ public class BossFight extends JFrame {
 
     //EFFECTS: creates a new game
     //MODIFIES: this
-    void newGame() {
+    public void newGame() {
         this.game = new Game();
         addGameRelevantPanels();
     }
@@ -183,7 +186,7 @@ public class BossFight extends JFrame {
     //EFFECTS: adds the game and pause panels
     //MODIFIES: this
     //REQUIRES: game != null
-    void addGameRelevantPanels() {
+    private void addGameRelevantPanels() {
         gp = new GamePanel(this.game);
         pp = new PausePanel(this.game, this);
         gop = new GameOverPanel(this.game, this);
@@ -197,7 +200,7 @@ public class BossFight extends JFrame {
 
     //EFFECTS: saves the current game state to a data file
     //MODIFIES: data/gameData.json
-    void saveGame(Game g) {
+    public void saveGame(Game g) {
         try {
             jsonWriter.open();
             jsonWriter.write(this.game);
@@ -210,7 +213,7 @@ public class BossFight extends JFrame {
 
     //EFFECTS: loads a saved game from a JSON file
     //MODIFIES: this
-    void loadGame() {
+    public void loadGame() {
         try {
             this.game = jsonReader.read();
             addGameRelevantPanels();
@@ -218,6 +221,15 @@ public class BossFight extends JFrame {
         } catch (IOException e) {
             System.out.println("Cannot read from saved file");
         }
+    }
+
+    //EFFECTS: closes the game and logs all relevant events
+    public void close() {
+        EventLog l = EventLog.getInstance();
+        for (Event next : l) {
+            System.out.println(next.getDate() + " - " + next.getDescription());
+        }
+        exit(0);
     }
 
     public JPanel getGamePanel() {

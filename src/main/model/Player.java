@@ -192,6 +192,9 @@ public class Player {
             playerAttacks.add(attack);
             this.canAttack = false;
             this.lockoutTicks = MAX_LOCKOUT_TICKS;
+            EventLog log = EventLog.getInstance();
+            log.logEvent(new Event("Added basic attack at x: " + posXOffset + ", y: "
+                    + (this.posY + (PLAYER_HEIGHT / 2) - ((double) ATTACK_HEIGHT / 2))));
         }
     }
 
@@ -216,6 +219,9 @@ public class Player {
             }
             this.canSpell = false;
             this.spellLockoutTicks = MAX_LOCKOUT_TICKS;
+            EventLog log = EventLog.getInstance();
+            log.logEvent(new Event("Added spell attack at x: " + posXOffset + ", y: " + (this.posY
+                    + (PLAYER_HEIGHT / 2) - ((double) MISSILE_HEIGHT / 2))));
         }
     }
 

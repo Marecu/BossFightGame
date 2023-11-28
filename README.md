@@ -57,3 +57,115 @@ The visual component is visible immediately upon game start. The entire game is 
 You can save the game by pressing "ESC" (while actively in the game) to open the pause menu and selecting "Save and quit".
 
 You can load a saved game by pressing the "Load Game" button on the home screen when the application is run.
+
+## Phase 4: Task 2
+
+    Fri Nov 24 13:02:09 PST 2023 - Added basic attack at x: 616, y: 510.5
+    
+    Fri Nov 24 13:02:09 PST 2023 - Removed basic attack at x: 616.0, y: 510.5
+    
+    Fri Nov 24 13:02:09 PST 2023 - Added basic attack at x: 609, y: 510.5
+    
+    Fri Nov 24 13:02:09 PST 2023 - Removed basic attack at x: 609.0, y: 510.5
+    
+    Fri Nov 24 13:02:10 PST 2023 - Added basic attack at x: 519, y: 510.5
+    
+    Fri Nov 24 13:02:10 PST 2023 - Removed basic attack at x: 519.0, y: 510.5
+    
+    Fri Nov 24 13:02:10 PST 2023 - Added basic attack at x: 438, y: 510.5
+    
+    Fri Nov 24 13:02:10 PST 2023 - Removed basic attack at x: 438.0, y: 510.5
+    
+    Fri Nov 24 13:02:11 PST 2023 - Added basic attack at x: 356, y: 510.5
+    
+    Fri Nov 24 13:02:11 PST 2023 - Removed basic attack at x: 356.0, y: 510.5
+    
+    Fri Nov 24 13:02:11 PST 2023 - Added basic attack at x: 229, y: 510.5
+    
+    Fri Nov 24 13:02:12 PST 2023 - Removed basic attack at x: 229.0, y: 510.5
+    
+    Fri Nov 24 13:02:13 PST 2023 - Added basic attack at x: 269, y: 510.5
+    
+    Fri Nov 24 13:02:14 PST 2023 - Removed basic attack at x: 269.0, y: 510.5
+    
+    Fri Nov 24 13:02:14 PST 2023 - Added basic attack at x: 508, y: 510.5
+    
+    Fri Nov 24 13:02:14 PST 2023 - Removed basic attack at x: 508.0, y: 510.5
+    
+    Fri Nov 24 13:02:15 PST 2023 - Added basic attack at x: 649, y: 510.5
+    
+    Fri Nov 24 13:02:15 PST 2023 - Removed basic attack at x: 649.0, y: 510.5
+    
+    Fri Nov 24 13:02:16 PST 2023 - Added spell attack at x: 897, y: 515.5
+    
+    Fri Nov 24 13:02:16 PST 2023 - Added basic attack at x: 850, y: 510.5
+    
+    Fri Nov 24 13:02:16 PST 2023 - Removed basic attack at x: 850.0, y: 510.5
+    
+    Fri Nov 24 13:02:17 PST 2023 - Added basic attack at x: 1054, y: 481.25
+    
+    Fri Nov 24 13:02:17 PST 2023 - Removed basic attack at x: 1054.0, y: 481.25
+    
+    Fri Nov 24 13:02:18 PST 2023 - Added spell attack at x: 795, y: 505.5
+    
+    Fri Nov 24 13:02:18 PST 2023 - Added basic attack at x: 795, y: 510.5
+    
+    Fri Nov 24 13:02:18 PST 2023 - Removed basic attack at x: 795.0, y: 510.5
+    
+    Fri Nov 24 13:02:19 PST 2023 - Added spell attack at x: 666, y: 515.5
+    
+    Fri Nov 24 13:02:19 PST 2023 - Added basic attack at x: 666, y: 510.5
+    
+    Fri Nov 24 13:02:19 PST 2023 - Removed basic attack at x: 666.0, y: 510.5
+    
+    Fri Nov 24 13:02:19 PST 2023 - Removed spell attack at x: -3103.0, y: 515.5
+    
+    Fri Nov 24 13:02:20 PST 2023 - Added spell attack at x: 539, y: 515.5
+    
+    Fri Nov 24 13:02:20 PST 2023 - Added basic attack at x: 543, y: 510.5
+    
+    Fri Nov 24 13:02:20 PST 2023 - Removed basic attack at x: 543.0, y: 510.5
+    
+    Fri Nov 24 13:02:20 PST 2023 - Added basic attack at x: 419, y: 510.5
+    
+    Fri Nov 24 13:02:20 PST 2023 - Removed basic attack at x: 419.0, y: 510.5
+    
+    Fri Nov 24 13:02:21 PST 2023 - Added basic attack at x: 313, y: 510.5
+    
+    Fri Nov 24 13:02:21 PST 2023 - Removed basic attack at x: 313.0, y: 510.5
+    
+    Fri Nov 24 13:02:21 PST 2023 - Added basic attack at x: 197, y: 510.5
+    
+    Fri Nov 24 13:02:21 PST 2023 - Removed spell attack at x: 4795.0, y: 505.5
+    
+    Fri Nov 24 13:02:22 PST 2023 - Added spell attack at x: 199, y: 515.5
+    
+    Fri Nov 24 13:02:22 PST 2023 - Removed basic attack at x: 197.0, y: 510.5
+    
+    Fri Nov 24 13:02:22 PST 2023 - Removed spell attack at x: 4666.0, y: 515.5
+    
+    Fri Nov 24 13:02:22 PST 2023 - Added basic attack at x: -68, y: 490.75
+    
+    Fri Nov 24 13:02:22 PST 2023 - Removed basic attack at x: -68.0, y: 490.75
+    
+    Fri Nov 24 13:02:23 PST 2023 - Removed spell attack at x: 4539.0, y: 515.5
+    
+    Fri Nov 24 13:02:23 PST 2023 - Added basic attack at x: 263, y: 463.0
+    
+    Fri Nov 24 13:02:24 PST 2023 - Removed basic attack at x: 263.0, y: 463.0
+    
+    Fri Nov 24 13:02:24 PST 2023 - Added basic attack at x: 358, y: 510.5
+    
+    Fri Nov 24 13:02:24 PST 2023 - Removed basic attack at x: 358.0, y: 510.5
+    
+    Fri Nov 24 13:02:25 PST 2023 - Removed spell attack at x: 4199.0, y: 515.5
+    
+    Fri Nov 24 13:02:25 PST 2023 - Added basic attack at x: 831, y: 481.25
+    
+    Fri Nov 24 13:02:26 PST 2023 - Removed basic attack at x: 831.0, y: 481.25
+    
+    Fri Nov 24 13:02:27 PST 2023 - Added basic attack at x: 1102, y: 510.5
+    
+    Fri Nov 24 13:02:27 PST 2023 - Added spell attack at x: 1108, y: 515.5
+    
+    Fri Nov 24 13:02:27 PST 2023 - Removed basic attack at x: 1102.0, y: 510.5

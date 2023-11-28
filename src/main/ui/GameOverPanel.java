@@ -106,7 +106,7 @@ public class GameOverPanel extends JPanel {
                     setVisible(false);
                     break;
                 case "quit":
-                    exit(0);
+                    bf.close();
                     break;
                 default:
                     break;

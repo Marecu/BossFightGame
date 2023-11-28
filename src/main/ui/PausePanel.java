@@ -112,10 +112,10 @@ public class PausePanel extends JPanel {
                     break;
                 case "sq":
                     bf.saveGame(game);
-                    exit(0);
+                    bf.close();
                     break;
                 case "q":
-                    exit(0);
+                    bf.close();
                     break;
                 default:
                     break;

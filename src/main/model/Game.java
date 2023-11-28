@@ -167,6 +167,9 @@ public class Game implements Writable {
             }
         }
         for (PlayerAttack next : attacksToRemove) {
+            EventLog log = EventLog.getInstance();
+            log.logEvent(new Event("Removed " + (next.getMoving() ? "spell" : "basic")
+                    + " attack at x: " + next.getX() + ", y: " + next.getY()));
             this.player.removeAttack(next);
         }
     }
