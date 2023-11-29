@@ -169,3 +169,11 @@ You can load a saved game by pressing the "Load Game" button on the home screen 
     Fri Nov 24 13:02:27 PST 2023 - Added spell attack at x: 1108, y: 515.5
     
     Fri Nov 24 13:02:27 PST 2023 - Removed basic attack at x: 1102.0, y: 510.5
+
+## Phase 4: Task 3
+
+When reviewing my UML Diagram, I realized that it would have been beneficial to implement the
+singleton design pattern in a few cases. Notably, the Game class could be refactored to use this
+design pattern. All 4 JPanels I use could be designed this way as well. This would greatly reduce the
+amount of coupling in the code and avoid the need to pass around object references to a majority of the
+classes in the program.
